@@ -5,7 +5,7 @@ export const siteData = {
 
   contact: {
     receiveEmailsAt: 'tu@email.com',
-    whatsapp: '5491112345678',
+    whatsapp: '3704345801',
   },
 
   company: {

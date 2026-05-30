@@ -28,11 +28,7 @@ Quiero solicitar:
 
 ${itemsList}
 
-${total}: $${totalPrice.toLocaleString('es-AR')}${deliverySection}
-
-Mis datos:
-Nombre:${deliveryData ? ' ' + deliveryData.name : ''}
-Teléfono:`
+${total}: $${totalPrice.toLocaleString('es-AR')}${deliverySection}`
 
     return encodeURIComponent(message)
   }
