@@ -1,10 +1,3 @@
-// ============================================
-// API: ENVÍO DE FORMULARIO DE CONTACTO VIA BREVO
-// ============================================
-// Este endpoint recibe datos del formulario y envía un email
-// usando la API de Brevo (Sendinblue)
-// ============================================
-
 import Sib from '@getbrevo/brevo'
 import escapeHtml from 'escape-html'
 
@@ -12,13 +5,13 @@ const apiKey = process.env.BREVO_API_KEY
 
 function generateEmailHTML(data) {
   const { name, email, phone, message, businessName, metadata } = data
-  
+
   const sanitizedMessage = escapeHtml(message)
   const sanitizedName = escapeHtml(name)
   const sanitizedPhone = escapeHtml(phone || 'No proporcionado')
-  
-  const metaRows = metadata ? `
-          <!-- Metadata -->
+
+  const metaRows = metadata
+    ? `
           <tr>
             <td style="padding: 20px; border-bottom: 1px solid #262626;">
               <p style="margin: 0 0 4px 0; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #06b6d4;">IP</p>
@@ -31,7 +24,8 @@ function generateEmailHTML(data) {
               <p style="margin: 0; font-size: 14px; color: #a3a3a3; word-break: break-all;">${escapeHtml(metadata.userAgent || 'No disponible')}</p>
             </td>
           </tr>
-` : ''
+`
+      : ''
 
   return `
 <!DOCTYPE html>
@@ -45,7 +39,6 @@ function generateEmailHTML(data) {
   
   <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width: 600px; margin: 0 auto; padding: 40px 20px;">
     
-    <!-- Header -->
     <tr>
       <td style="padding-bottom: 30px; border-bottom: 1px solid #262626;">
         <h1 style="margin: 0; font-size: 24px; font-weight: 700; color: #06b6d4;">
@@ -57,7 +50,6 @@ function generateEmailHTML(data) {
       </td>
     </tr>
     
-    <!-- Message highlight -->
     <tr>
       <td style="padding: 30px 0;">
         <div style="background: linear-gradient(135deg, rgba(6,182,212,0.1), rgba(37,99,235,0.1)); border: 1px solid rgba(6,182,212,0.2); border-radius: 16px; padding: 24px;">
@@ -68,12 +60,10 @@ function generateEmailHTML(data) {
       </td>
     </tr>
     
-    <!-- Data block -->
     <tr>
       <td>
         <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #111111; border: 1px solid #262626; border-radius: 16px; overflow: hidden;">
           
-          <!-- Name -->
           <tr>
             <td style="padding: 20px; border-bottom: 1px solid #262626;">
               <p style="margin: 0 0 4px 0; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #06b6d4;">Nombre</p>
@@ -81,7 +71,6 @@ function generateEmailHTML(data) {
             </td>
           </tr>
           
-          <!-- Email -->
           <tr>
             <td style="padding: 20px; border-bottom: 1px solid #262626;">
               <p style="margin: 0 0 4px 0; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #06b6d4;">Email</p>
@@ -91,7 +80,6 @@ function generateEmailHTML(data) {
             </td>
           </tr>
           
-          <!-- Phone -->
           <tr>
             <td style="padding: 20px; border-bottom: 1px solid #262626;">
               <p style="margin: 0 0 4px 0; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #06b6d4;">Teléfono</p>
@@ -103,11 +91,10 @@ function generateEmailHTML(data) {
       </td>
     </tr>
     
-    <!-- Footer -->
     <tr>
       <td style="padding-top: 30px; text-align: center;">
         <p style="margin: 0; font-size: 12px; color: #525252;">
-          Enviado desde ${escapeHtml(businessName)} • Implementado con AppResuelve
+          Enviado desde ${escapeHtml(businessName || 'tu sitio web')} • Implementado con AppResuelve
         </p>
       </td>
     </tr>
@@ -121,17 +108,17 @@ function generateEmailHTML(data) {
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ 
-      success: false, 
-      message: 'Método no permitido. Usá POST.' 
+    return res.status(405).json({
+      success: false,
+      message: 'Método no permitido. Usá POST.',
     })
   }
 
   if (!apiKey) {
     console.error('BREVO_API_KEY no está configurada')
-    return res.status(500).json({ 
-      success: false, 
-      message: 'Error de configuración del servidor.' 
+    return res.status(500).json({
+      success: false,
+      message: 'Error de configuración del servidor.',
     })
   }
 
@@ -171,26 +158,25 @@ export default async function handler(req, res) {
     const sendSmtpEmail = {
       to: [{ email: receiveEmailsAt }],
       replyTo: { email, name },
-      sender: { 
-        email: process.env.BREVO_SENDER || 'formularios@appresuelve.site', 
-        name: 'Formulario Web' 
+      sender: {
+        email: process.env.BREVO_SENDER || 'formularios@appresuelve.site',
+        name: 'Formulario Web',
       },
       subject: `Nuevo contacto desde ${businessName || 'tu sitio web'}`,
       htmlContent: generateEmailHTML({ name, email, phone, message, businessName, metadata }),
     }
 
     const result = await apiInstance.sendTransacEmail(sendSmtpEmail)
-    
+
     console.log('Email enviado exitosamente:', result)
-    
+
     return res.status(200).json({
       success: true,
       message: 'Mensaje enviado correctamente.',
     })
-
   } catch (error) {
     console.error('Error al enviar email:', error)
-    
+
     return res.status(500).json({
       success: false,
       message: 'Error al enviar el mensaje. Por favor intentá de nuevo.',

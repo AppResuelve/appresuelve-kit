@@ -11,7 +11,7 @@ export function About() {
       <Navbar />
       
       {/* HERO */}
-      <section className="relative pt-32 pb-16 px-4 sm:px-6 lg:px-8">
+      <section className="relative pt-20 md:pt-32 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-[-120px] left-[-120px] w-[320px] h-[320px] rounded-full bg-cyan-400/10 blur-3xl" />
           <div className="absolute bottom-[-120px] right-[-120px] w-[320px] h-[320px] rounded-full bg-blue-600/10 blur-3xl" />
