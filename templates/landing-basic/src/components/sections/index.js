@@ -1,0 +1,7 @@
+export { Hero } from './Hero'
+export { Benefits } from './Benefits'
+export { Services } from './Services'
+export { Gallery } from './Gallery'
+export { FAQ } from './FAQ'
+export { CTAFinal } from './CTAFinal'
+export { Footer } from './Footer'
