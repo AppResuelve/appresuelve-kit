@@ -1,9 +1,14 @@
 import { X } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { QuantitySelector } from './QuantitySelector'
+import { useCart } from '../context/CartContext'
+import { formatPrice } from '../data/products'
 
 export function CartItem({ item }) {
   const { updateQuantity, removeItem } = useCart()
+
+  const hasWholesale = item.wholesalePrice && item.unitsToWholesalePrice
+  const usesWholesale = hasWholesale && item.quantity >= item.unitsToWholesalePrice
 
   return (
     <div className="flex gap-4 p-4 rounded-2xl border border-[var(--color-border)] bg-[var(--color-card)]">
@@ -32,7 +37,10 @@ export function CartItem({ item }) {
         </div>
 
         <p className="text-sm text-[var(--color-text-muted)] mt-1">
-          {item.price} c/u
+          {formatPrice(item.unitPrice)} c/u
+          {usesWholesale && (
+            <span className="ml-2 text-[var(--color-primary)] font-medium">(mayorista)</span>
+          )}
         </p>
 
         <div className="flex items-center justify-between mt-4">
@@ -43,12 +51,10 @@ export function CartItem({ item }) {
           />
 
           <span className="text-lg font-bold text-[var(--color-primary)]">
-            ${item.subtotal.toLocaleString('es-AR')}
+            {formatPrice(item.subtotal)}
           </span>
         </div>
       </div>
     </div>
   )
 }
-
-import { useCart } from '../context/CartContext'

@@ -1,9 +1,4 @@
-export function SectionHeader({
-  badge,
-  title,
-  subtitle,
-  className = '',
-}) {
+export function SectionHeader({ badge, title, subtitle, className = "" }) {
   return (
     <div className={`mb-12 ${className}`}>
       {badge && (
@@ -12,7 +7,7 @@ export function SectionHeader({
         </span>
       )}
       {title && (
-        <h2 className="text-3xl sm:text-4xl font-bold text-[var(--color-text-primary)] mb-4">
+        <h2 className="text-4xl font-bold text-[var(--color-text-primary)] mb-4">
           {title}
         </h2>
       )}
@@ -22,5 +17,5 @@ export function SectionHeader({
         </p>
       )}
     </div>
-  )
+  );
 }

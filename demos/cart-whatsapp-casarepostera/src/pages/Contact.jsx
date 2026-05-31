@@ -1,14 +1,14 @@
-import { MapPin, Phone, Mail, Clock } from 'lucide-react'
-import { siteData, content } from '../data/siteData'
-import { ContactForm } from '../components/ContactForm'
-import { SectionHeader } from '../components/ui/SectionHeader'
+import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { siteData, content } from "../data/siteData";
+import { ContactForm } from "../components/ContactForm";
+import { SectionHeader } from "../components/ui/SectionHeader";
 
 export default function Contact() {
-  const { badge, title, subtitle, infoTitle } = content.contact
+  const { badge, title, subtitle, infoTitle } = content.contact;
 
   return (
     <>
-      <section className="relative pt-20 md:pt-32 pb-16 px-4 sm:px-6 lg:px-8">
+      <section className="relative pt-10 md:pt-20 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-[-120px] left-[-120px] w-[320px] h-[320px] rounded-full bg-[var(--color-primary)]/10 blur-3xl" />
           <div className="absolute bottom-[-120px] right-[-120px] w-[320px] h-[320px] rounded-full bg-[var(--color-secondary)]/10 blur-3xl" />
@@ -21,7 +21,7 @@ export default function Contact() {
                 {badge}
               </span>
             )}
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[0.95] text-[var(--color-text-primary)] mb-6">
+            <h1 className="text-4xl font-black tracking-tight leading-[0.95] text-[var(--color-text-primary)] mb-6">
               {title}
             </h1>
             <p className="text-xl text-[var(--color-text-secondary)] leading-relaxed">
@@ -31,7 +31,7 @@ export default function Contact() {
         </div>
       </section>
 
-      <section className="py-24 px-4 sm:px-6 lg:px-8">
+      <section className="pb-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16">
             <ContactForm />
@@ -131,5 +131,5 @@ export default function Contact() {
         </div>
       </section>
     </>
-  )
+  );
 }

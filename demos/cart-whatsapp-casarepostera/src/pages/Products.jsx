@@ -1,50 +1,50 @@
-import { useState, useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
-import { SlidersHorizontal } from 'lucide-react'
-import { content } from '../data/siteData'
-import { categories } from '../data/categories'
-import { searchProducts } from '../data/products'
-import { ProductGrid } from '../components/ProductGrid'
-import { SearchBar } from '../components/SearchBar'
-import { CategoryFilter } from '../components/CategoryFilter'
-import { SectionHeader } from '../components/ui/SectionHeader'
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+import { SlidersHorizontal } from "lucide-react";
+import { content } from "../data/siteData";
+import { categories } from "../data/categories";
+import { searchProducts } from "../data/products";
+import { ProductGrid } from "../components/ProductGrid";
+import { SearchBar } from "../components/SearchBar";
+import { CategoryFilter } from "../components/CategoryFilter";
+import { SectionHeader } from "../components/ui/SectionHeader";
 
 export default function Products() {
-  const [searchParams, setSearchParams] = useSearchParams()
-  const [searchQuery, setSearchQuery] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState('Todos')
-  const [isFilterOpen, setIsFilterOpen] = useState(false)
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("Todos");
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  const { title, subtitle, noResults, clearFilters } = content.products
+  const { title, subtitle, noResults, clearFilters } = content.products;
 
   useEffect(() => {
-    const cat = searchParams.get('cat')
+    const cat = searchParams.get("cat");
     if (cat) {
-      setSelectedCategory(cat)
+      setSelectedCategory(cat);
     }
-  }, [searchParams])
+  }, [searchParams]);
 
-  const filteredProducts = searchProducts(searchQuery, selectedCategory)
+  const filteredProducts = searchProducts(searchQuery, selectedCategory);
 
   const handleCategoryChange = (category) => {
-    setSelectedCategory(category)
-    if (category === 'Todos') {
-      setSearchParams({})
+    setSelectedCategory(category);
+    if (category === "Todos") {
+      setSearchParams({});
     } else {
-      setSearchParams({ cat: category })
+      setSearchParams({ cat: category });
     }
-  }
+  };
 
   const handleClearFilters = () => {
-    setSearchQuery('')
-    setSelectedCategory('Todos')
-    setSearchParams({})
-  }
+    setSearchQuery("");
+    setSelectedCategory("Todos");
+    setSearchParams({});
+  };
 
-  const hasActiveFilters = searchQuery || selectedCategory !== 'Todos'
+  const hasActiveFilters = searchQuery || selectedCategory !== "Todos";
 
   return (
-    <section className="pt-20 md:pt-32 pb-24 px-4 sm:px-6 lg:px-8">
+    <section className="pt-10 md:pt-20 pb-16 px-3 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <SectionHeader
           badge={content.products.badge}
@@ -84,8 +84,8 @@ export default function Products() {
               <div className="flex items-center justify-between mb-6">
                 <p className="text-sm text-[var(--color-text-secondary)]">
                   {filteredProducts.length} producto
-                  {filteredProducts.length !== 1 ? 's' : ''} encontrado
-                  {filteredProducts.length !== 1 ? 's' : ''}
+                  {filteredProducts.length !== 1 ? "s" : ""} encontrado
+                  {filteredProducts.length !== 1 ? "s" : ""}
                 </p>
                 <button
                   onClick={handleClearFilters}
@@ -115,5 +115,5 @@ export default function Products() {
         </div>
       </div>
     </section>
-  )
+  );
 }

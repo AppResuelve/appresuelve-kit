@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ShoppingCart } from 'lucide-react'
+import { ShoppingCart, ArrowLeft } from 'lucide-react'
 import { content } from '../data/siteData'
 import { siteData } from '../data/siteData'
+import { formatPrice } from '../data/products'
 import { useCart } from '../context/CartContext'
 import { CartItem } from '../components/CartItem'
 import { CheckoutModal, DeliveryFormModal } from '../components/CheckoutModal'
@@ -15,7 +16,7 @@ export default function Cart() {
 
   const generateWhatsAppMessage = (deliveryData = null) => {
     const itemsList = items
-      .map((item) => `- ${item.quantity}x ${item.name} - ${item.price} c/u`)
+      .map((item) => `- ${item.quantity}x ${item.name} - ${formatPrice(item.unitPrice)} c/u`)
       .join('\n')
 
     let deliverySection = ''
@@ -90,6 +91,13 @@ ${total}: $${totalPrice.toLocaleString('es-AR')}${deliverySection}`
     <>
       <section className="pt-20 md:pt-32 pb-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
+          <Link
+            to="/productos"
+            className="inline-flex items-center gap-2 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] mb-6 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Ir a productos
+          </Link>
           <div className="flex items-center justify-between mb-8">
             <h1 className="text-3xl font-bold text-[var(--color-text-primary)]">
               {title}

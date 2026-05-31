@@ -1,3 +1,6 @@
+const formatPrice = (num) =>
+  num.toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })
+
 export const products = [
   {
     id: 1,
@@ -11,8 +14,12 @@ export const products = [
     ],
     category: 'Ingredientes',
     featured: true,
-    price: '$3.021',
-    priceNumber: 3021.47,
+    retailPrice: 3021.47,
+    comparePrice: 3500,
+    discountPercentage: 14,
+    wholesalePrice: 2500,
+    unitsToWholesalePrice: 10,
+    wholesaleComparePrice: 3000,
     tags: [],
   },
   {
@@ -27,8 +34,7 @@ export const products = [
     ],
     category: 'Ingredientes',
     featured: false,
-    price: '$4.084',
-    priceNumber: 4084.32,
+    retailPrice: 4084.32,
     tags: [],
   },
   {
@@ -43,8 +49,9 @@ export const products = [
     ],
     category: 'Ingredientes',
     featured: true,
-    price: '$6.696',
-    priceNumber: 6695.84,
+    retailPrice: 6695.84,
+    comparePrice: 7900,
+    discountPercentage: 15,
     tags: ['oferta'],
   },
   {
@@ -59,8 +66,7 @@ export const products = [
     ],
     category: 'Ingredientes',
     featured: false,
-    price: '$1.031',
-    priceNumber: 1031.29,
+    retailPrice: 1031.29,
     tags: [],
   },
   {
@@ -75,8 +81,7 @@ export const products = [
     ],
     category: 'Ingredientes',
     featured: true,
-    price: '$2.227',
-    priceNumber: 2226.51,
+    retailPrice: 2226.51,
     tags: ['bestseller'],
   },
   {
@@ -91,8 +96,10 @@ export const products = [
     ],
     category: 'Ingredientes',
     featured: true,
-    price: '$4.193',
-    priceNumber: 4193.48,
+    retailPrice: 4193.48,
+    wholesalePrice: 3600,
+    unitsToWholesalePrice: 12,
+    wholesaleComparePrice: 4000,
     tags: [],
   },
   {
@@ -107,8 +114,7 @@ export const products = [
     ],
     category: 'Ingredientes',
     featured: false,
-    price: '$9.213',
-    priceNumber: 9213.27,
+    retailPrice: 9213.27,
     tags: [],
   },
   {
@@ -123,8 +129,7 @@ export const products = [
     ],
     category: 'Decoraciones',
     featured: false,
-    price: '$637',
-    priceNumber: 636.69,
+    retailPrice: 636.69,
     tags: [],
   },
   {
@@ -139,8 +144,7 @@ export const products = [
     ],
     category: 'Decoraciones',
     featured: false,
-    price: '$75.003',
-    priceNumber: 75002.52,
+    retailPrice: 75002.52,
     tags: ['mayorista'],
   },
   {
@@ -155,8 +159,7 @@ export const products = [
     ],
     category: 'Decoraciones',
     featured: false,
-    price: '$1.298',
-    priceNumber: 1298.48,
+    retailPrice: 1298.48,
     tags: [],
   },
   {
@@ -171,8 +174,9 @@ export const products = [
     ],
     category: 'Decoraciones',
     featured: true,
-    price: '$3.990',
-    priceNumber: 3990,
+    retailPrice: 3990,
+    comparePrice: 4500,
+    discountPercentage: 11,
     tags: ['tematico'],
   },
   {
@@ -187,8 +191,7 @@ export const products = [
     ],
     category: 'Decoraciones',
     featured: false,
-    price: '$3.000',
-    priceNumber: 3000,
+    retailPrice: 3000,
     tags: [],
   },
   {
@@ -203,8 +206,7 @@ export const products = [
     ],
     category: 'Decoraciones',
     featured: false,
-    price: '$3.000',
-    priceNumber: 3000,
+    retailPrice: 3000,
     tags: [],
   },
   {
@@ -219,8 +221,7 @@ export const products = [
     ],
     category: 'Decoraciones',
     featured: false,
-    price: '$3.000',
-    priceNumber: 3000,
+    retailPrice: 3000,
     tags: [],
   },
 ]
@@ -262,3 +263,5 @@ export function searchProducts(query, category) {
 
   return filtered
 }
+
+export { formatPrice }

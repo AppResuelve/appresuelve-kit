@@ -9,6 +9,7 @@ const STORAGE_KEY = siteData.cart.persistenceKey || 'appresuelve-cart'
 function cartReducer(state, action) {
   switch (action.type) {
     case 'ADD_ITEM': {
+      const quantityToAdd = action.payload.quantity || 1
       const existingIndex = state.items.findIndex(
         (item) => item.productId === action.payload.productId
       )
@@ -17,7 +18,7 @@ function cartReducer(state, action) {
         const newItems = [...state.items]
         newItems[existingIndex] = {
           ...newItems[existingIndex],
-          quantity: newItems[existingIndex].quantity + 1,
+          quantity: newItems[existingIndex].quantity + quantityToAdd,
         }
         return { ...state, items: newItems }
       }
@@ -26,7 +27,7 @@ function cartReducer(state, action) {
         ...state,
         items: [
           ...state.items,
-          { productId: action.payload.productId, quantity: 1 },
+          { productId: action.payload.productId, quantity: quantityToAdd },
         ],
       }
     }
@@ -110,8 +111,8 @@ export function CartProvider({ children }) {
     saveCartToStorage(state.items)
   }, [state.items])
 
-  const addItem = (productId) => {
-    dispatch({ type: 'ADD_ITEM', payload: { productId } })
+  const addItem = (productId, quantity = 1) => {
+    dispatch({ type: 'ADD_ITEM', payload: { productId, quantity } })
   }
 
   const removeItem = (productId) => {
@@ -135,10 +136,16 @@ export function CartProvider({ children }) {
     .map((item) => {
       const product = getProductById(item.productId)
       if (!product) return null
+
+      const hasWholesale = product.wholesalePrice && product.unitsToWholesalePrice
+      const usesWholesale = hasWholesale && item.quantity >= product.unitsToWholesalePrice
+      const unitPrice = usesWholesale ? product.wholesalePrice : product.retailPrice
+
       return {
         ...product,
         quantity: item.quantity,
-        subtotal: product.priceNumber * item.quantity,
+        unitPrice,
+        subtotal: unitPrice * item.quantity,
       }
     })
     .filter(Boolean)
