@@ -21,9 +21,6 @@ export default function Home() {
 
         <div className="relative max-w-7xl mx-auto">
           <div className="max-w-3xl">
-            <span className="inline-block px-4 py-1.5 rounded-full text-sm font-semibold bg-[var(--color-primary)]/10 text-[var(--color-primary)] border border-[var(--color-primary)]/20 mb-6">
-              {hero.badge}
-            </span>
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[0.95] text-[var(--color-text-primary)] mb-6">
               {hero.title}{' '}
               <span className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] bg-clip-text text-transparent">

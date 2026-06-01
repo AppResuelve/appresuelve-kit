@@ -48,7 +48,6 @@ export default function Products() {
     <section className="pt-10 md:pt-20 pb-16 px-3 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <SectionHeader
-          badge={content.products.badge}
           title={title}
           subtitle={subtitle}
           className="mb-8"

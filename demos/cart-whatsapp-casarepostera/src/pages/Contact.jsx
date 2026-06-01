@@ -4,7 +4,7 @@ import { ContactForm } from "../components/ContactForm";
 import { SectionHeader } from "../components/ui/SectionHeader";
 
 export default function Contact() {
-  const { badge, title, subtitle, infoTitle } = content.contact;
+  const { title, subtitle, infoTitle } = content.contact;
 
   return (
     <>
@@ -16,11 +16,6 @@ export default function Contact() {
 
         <div className="relative max-w-7xl mx-auto">
           <div className="max-w-3xl">
-            {badge && (
-              <span className="inline-block px-4 py-1.5 rounded-full text-sm font-semibold bg-[var(--color-primary)]/10 text-[var(--color-primary)] border border-[var(--color-primary)]/20 mb-6">
-                {badge}
-              </span>
-            )}
             <h1 className="text-4xl font-black tracking-tight leading-[0.95] text-[var(--color-text-primary)] mb-6">
               {title}
             </h1>
