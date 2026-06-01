@@ -5,7 +5,7 @@ export const siteData = {
 
   contact: {
     receiveEmailsAt: 'hola@casarepostera.com.ar',
-    whatsapp: '3704345801',
+    whatsapp: '5493834971799',
   },
 
   company: {
@@ -66,7 +66,7 @@ export const siteData = {
         links: [
           { label: 'hola@casarepostera.com.ar', href: 'mailto:hola@casarepostera.com.ar' },
           { label: '+54 11 5555-1234', href: 'tel:+541155551234' },
-          { label: 'WhatsApp', href: 'https://wa.me/3704345801' },
+          { label: 'WhatsApp', href: 'https://wa.me/5493834971799' },
         ],
       },
     ],

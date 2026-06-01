@@ -5,7 +5,7 @@ export const siteData = {
 
   contact: {
     receiveEmailsAt: "hola@carshine.com.ar",
-    whatsapp: "5491123456789",
+    whatsapp: "5493834971799",
   },
 
   company: {
@@ -94,7 +94,7 @@ export const siteData = {
             href: "mailto:hola@carshine.com.ar",
           },
           { label: "+54 11 2345-6789", href: "tel:+541123456789" },
-          { label: "WhatsApp", href: "https://wa.me/5491123456789" },
+          { label: "WhatsApp", href: "https://wa.me/5493834971799" },
         ],
       },
     ],

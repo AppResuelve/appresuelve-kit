@@ -1,3 +1,5 @@
+import { siteData } from '../../data/siteData'
+
 export function ButtonPrimary({ children, className = '', ...props }) {
   return (
     <button
@@ -21,9 +23,10 @@ export function ButtonSecondary({ children, className = '', ...props }) {
 }
 
 export function ButtonWhatsApp({ children, className = '', ...props }) {
+  const whatsappNumber = siteData.contact.whatsapp?.replace(/\D/g, '') || ''
   return (
     <a
-      href="https://wa.me/5491112345678"
+      href={`https://wa.me/${whatsappNumber}`}
       target="_blank"
       rel="noopener noreferrer"
       className={`inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[var(--color-primary)] text-white font-semibold hover:opacity-90 transition-all duration-200 ${className}`}
