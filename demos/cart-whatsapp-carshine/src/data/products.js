@@ -1,5 +1,10 @@
 const formatPrice = (num) =>
-  num.toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })
+  num.toLocaleString('es-AR', {
+    style: 'currency',
+    currency: 'ARS',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  })
 
 export const products = [
   {

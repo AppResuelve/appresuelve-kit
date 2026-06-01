@@ -38,11 +38,11 @@ export function HeroCarousel({
           modules={[Navigation, Pagination, Autoplay]}
           slidesPerView={1}
           spaceBetween={0}
-          navigation={showArrows ? {} : false}
+          navigation={showArrows && !isMobile ? {} : false}
           pagination={showDots ? { clickable: true } : false}
           autoplay={autoplay ? { delay: autoplayInterval, disableOnInteraction: true } : false}
           loop={activeImages.length > 1}
-          className="aspect-[16/9] md:aspect-[3/1] max-h-[400px] md:max-h-[400px]"
+          className=" max-h-[400px] md:max-h-[450px]"
         >
           {activeImages.map((src, index) => (
             <SwiperSlide key={src}>

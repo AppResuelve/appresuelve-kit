@@ -1,8 +1,14 @@
-import { Minus, Plus } from 'lucide-react'
+import { Minus, Plus } from "lucide-react";
 
-export function QuantitySelector({ quantity, onIncrease, onDecrease, min = 1, max = 99 }) {
+export function QuantitySelector({
+  quantity,
+  onIncrease,
+  onDecrease,
+  min = 1,
+  max = 99,
+}) {
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center">
       <button
         onClick={onDecrease}
         disabled={quantity <= min}
@@ -21,5 +27,5 @@ export function QuantitySelector({ quantity, onIncrease, onDecrease, min = 1, ma
         <Plus className="w-4 h-4" />
       </button>
     </div>
-  )
+  );
 }

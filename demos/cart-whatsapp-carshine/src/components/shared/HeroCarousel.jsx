@@ -39,7 +39,7 @@ export function HeroCarousel({
           modules={[Navigation, Pagination, Autoplay]}
           slidesPerView={1}
           spaceBetween={0}
-          navigation={showArrows ? {} : false}
+          navigation={showArrows && !isMobile ? {} : false}
           pagination={showDots ? { clickable: true } : false}
           autoplay={
             autoplay
