@@ -1,14 +1,16 @@
 import { X } from 'lucide-react'
 
-export function SearchBar({ value, onChange, placeholder = 'Buscar productos...' }) {
+export function SearchBar({ value, onChange, placeholder = 'Buscar productos...', onFocus, onBlur }) {
   return (
     <div className="relative">
       <input
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        onFocus={onFocus}
+        onBlur={onBlur}
         placeholder={placeholder}
-        className="w-full px-5 py-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-card)] text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] focus:outline-none focus:border-[var(--color-primary)] transition-colors pl-12"
+        className="w-full px-4 py-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-card)] text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] focus:outline-none focus:border-[var(--color-primary)] transition-colors pl-11 h-11"
       />
       <svg
         className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--color-text-muted)]"

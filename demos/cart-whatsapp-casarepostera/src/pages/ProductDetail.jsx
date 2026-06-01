@@ -66,7 +66,7 @@ export default function ProductDetail() {
         </button>
 
         <div className="grid lg:grid-cols-2 gap-12 mb-24">
-          <ProductGallery images={product.images} productName={product.name} />
+          <ProductGallery images={product.images} productName={product.name} discountPercentage={hasDiscount ? product.discountPercentage : null} />
 
           <div>
             <div className="mb-6">
@@ -100,11 +100,6 @@ export default function ProductDetail() {
                   </span>
                 )}
               </div>
-              {hasDiscount && (
-                <Badge variant="sale" className="text-base px-3 py-1">
-                  -{product.discountPercentage}%
-                </Badge>
-              )}
             </div>
 
             {hasWholesale && (
@@ -116,7 +111,7 @@ export default function ProductDetail() {
                   <span className="text-2xl font-bold text-[var(--color-primary)]">
                     {formatPrice(product.wholesalePrice)}
                   </span>
-                  <span className="text-sm text-[var(--color-text-muted)]">x {product.unitsToWholesalePrice} u.</span>
+                  <span className="text-sm text-[var(--color-text-muted)]">x 1 u.</span>
                 </div>
                 {product.wholesaleComparePrice && (
                   <span className="text-base text-[var(--color-text-muted)] line-through">

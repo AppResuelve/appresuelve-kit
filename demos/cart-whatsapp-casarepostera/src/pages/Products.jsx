@@ -14,6 +14,7 @@ export default function Products() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Todos");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
 
   const { title, subtitle, noResults, clearFilters } = content.products;
 
@@ -50,7 +51,7 @@ export default function Products() {
           badge={content.products.badge}
           title={title}
           subtitle={subtitle}
-          className="mb-12"
+          className="mb-8"
         />
 
         <div className="flex flex-col lg:flex-row gap-8">
@@ -63,21 +64,27 @@ export default function Products() {
           />
 
           <div className="flex-1">
-            <div className="flex flex-col sm:flex-row gap-4 mb-8">
-              <div className="flex-1">
-                <SearchBar
-                  value={searchQuery}
-                  onChange={setSearchQuery}
-                  placeholder="Buscar productos..."
-                />
+            <div className="max-md:sticky max-md:top-[calc(4rem+12px)] max-md:z-30 mb-6">
+              <div className="flex flex-row gap-3 items-center">
+                <div className="flex-1">
+                  <SearchBar
+                    value={searchQuery}
+                    onChange={setSearchQuery}
+                    placeholder="Buscar productos..."
+                    onFocus={() => setIsSearchFocused(true)}
+                    onBlur={() => setIsSearchFocused(false)}
+                  />
+                </div>
+                <button
+                  onClick={() => setIsFilterOpen(true)}
+                  className="lg:hidden shrink-0 h-11 flex items-center gap-2 px-3 py-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-card)] text-[var(--color-text-primary)]"
+                >
+                  <SlidersHorizontal className="w-5 h-5" />
+                  {!isSearchFocused && (
+                    <span className="text-sm font-medium">Filtros</span>
+                  )}
+                </button>
               </div>
-              <button
-                onClick={() => setIsFilterOpen(true)}
-                className="lg:hidden flex items-center justify-center gap-2 px-6 py-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-card)] text-[var(--color-text-primary)] font-medium"
-              >
-                <SlidersHorizontal className="w-5 h-5" />
-                Filtros
-              </button>
             </div>
 
             {hasActiveFilters && (
