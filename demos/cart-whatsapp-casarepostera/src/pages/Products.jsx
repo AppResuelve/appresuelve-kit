@@ -25,6 +25,17 @@ export default function Products() {
     }
   }, [searchParams]);
 
+  useEffect(() => {
+    if (isFilterOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isFilterOpen]);
+
   const filteredProducts = searchProducts(searchQuery, selectedCategory);
 
   const handleCategoryChange = (category) => {

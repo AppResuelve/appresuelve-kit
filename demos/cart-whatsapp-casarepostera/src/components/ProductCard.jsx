@@ -28,14 +28,15 @@ export function ProductCard({ product }) {
   }
 
   return (
-    <div className="group rounded-2xl border border-[var(--color-border)] bg-[var(--color-card)] overflow-hidden hover:border-[var(--color-primary)]/30 transition-all duration-300 flex flex-col">
+    <div className="group relative rounded-2xl border border-[var(--color-border)] bg-[var(--color-card)] overflow-hidden transition-all duration-300 flex flex-col">
+      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#08A58C]/10 to-transparent opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
       <div className="relative">
         <Link to={`/producto/${product.slug}`} className="block">
           <div className="aspect-square overflow-hidden">
             <img
               src={product.images[0]}
               alt={product.name}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              className="w-full h-full object-cover md:group-hover:scale-105 transition-transform duration-500"
             />
           </div>
           {hasDiscount && (
@@ -59,7 +60,7 @@ export function ProductCard({ product }) {
 
       <div className="p-2 flex flex-col flex-1">
         <Link to={`/producto/${product.slug}`} className="block flex-1">
-          <h3 className="text-base font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-primary)] transition-colors line-clamp-2">
+          <h3 className="text-base font-semibold text-[var(--color-text-primary)] line-clamp-2">
             {product.name}
           </h3>
         </Link>

@@ -15,11 +15,6 @@ export const products = [
     category: 'Ingredientes',
     featured: true,
     retailPrice: 3021.47,
-    comparePrice: 3500,
-    discountPercentage: 14,
-    wholesalePrice: 2500,
-    unitsToWholesalePrice: 10,
-    wholesaleComparePrice: 3000,
     tags: [],
   },
   {
@@ -50,9 +45,7 @@ export const products = [
     category: 'Ingredientes',
     featured: true,
     retailPrice: 6695.84,
-    comparePrice: 7900,
-    discountPercentage: 15,
-    tags: ['oferta'],
+    tags: [],
   },
   {
     id: 4,
@@ -82,6 +75,8 @@ export const products = [
     category: 'Ingredientes',
     featured: true,
     retailPrice: 2226.51,
+    wholesalePrice: 1800,
+    unitsToWholesalePrice: 8,
     tags: ['bestseller'],
   },
   {
@@ -99,7 +94,6 @@ export const products = [
     retailPrice: 4193.48,
     wholesalePrice: 3600,
     unitsToWholesalePrice: 12,
-    wholesaleComparePrice: 4000,
     tags: [],
   },
   {
@@ -115,6 +109,8 @@ export const products = [
     category: 'Ingredientes',
     featured: false,
     retailPrice: 9213.27,
+    wholesalePrice: 7500,
+    unitsToWholesalePrice: 6,
     tags: [],
   },
   {
@@ -130,6 +126,8 @@ export const products = [
     category: 'Decoraciones',
     featured: false,
     retailPrice: 636.69,
+    wholesalePrice: 500,
+    unitsToWholesalePrice: 10,
     tags: [],
   },
   {
@@ -145,6 +143,11 @@ export const products = [
     category: 'Decoraciones',
     featured: false,
     retailPrice: 75002.52,
+    comparePrice: 85000,
+    discountPercentage: 15,
+    wholesalePrice: 65000,
+    unitsToWholesalePrice: 6,
+    wholesaleComparePrice: 72000,
     tags: ['mayorista'],
   },
   {
@@ -160,6 +163,11 @@ export const products = [
     category: 'Decoraciones',
     featured: false,
     retailPrice: 1298.48,
+    comparePrice: 1600,
+    discountPercentage: 20,
+    wholesalePrice: 1100,
+    unitsToWholesalePrice: 10,
+    wholesaleComparePrice: 1400,
     tags: [],
   },
   {
@@ -177,6 +185,9 @@ export const products = [
     retailPrice: 3990,
     comparePrice: 4500,
     discountPercentage: 11,
+    wholesalePrice: 3300,
+    unitsToWholesalePrice: 10,
+    wholesaleComparePrice: 4000,
     tags: ['tematico'],
   },
   {
@@ -192,6 +203,11 @@ export const products = [
     category: 'Decoraciones',
     featured: false,
     retailPrice: 3000,
+    comparePrice: 3500,
+    discountPercentage: 14,
+    wholesalePrice: 2500,
+    unitsToWholesalePrice: 12,
+    wholesaleComparePrice: 3000,
     tags: [],
   },
   {
@@ -207,6 +223,8 @@ export const products = [
     category: 'Decoraciones',
     featured: false,
     retailPrice: 3000,
+    wholesalePrice: 2500,
+    unitsToWholesalePrice: 10,
     tags: [],
   },
   {
@@ -222,6 +240,8 @@ export const products = [
     category: 'Decoraciones',
     featured: false,
     retailPrice: 3000,
+    comparePrice: 3500,
+    discountPercentage: 14,
     tags: [],
   },
 ]
