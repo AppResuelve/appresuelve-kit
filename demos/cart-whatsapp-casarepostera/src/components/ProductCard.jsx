@@ -38,6 +38,13 @@ export function ProductCard({ product }) {
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
           </div>
+          {hasDiscount && (
+            <div className="absolute bottom-3 right-3">
+              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-bold bg-emerald-500 text-white">
+                {product.discountPercentage}% OFF
+              </span>
+            </div>
+          )}
           {product.tags.length > 0 && (
             <div className="absolute top-3 left-3 flex gap-2">
               {product.tags.map((tag) => (
@@ -50,9 +57,9 @@ export function ProductCard({ product }) {
         </Link>
       </div>
 
-      <div className="p-3 flex flex-col flex-1">
+      <div className="p-2 flex flex-col flex-1">
         <Link to={`/producto/${product.slug}`} className="block flex-1">
-          <h3 className="text-base font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-primary)] transition-colors">
+          <h3 className="text-base font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-primary)] transition-colors line-clamp-2">
             {product.name}
           </h3>
         </Link>
@@ -72,11 +79,6 @@ export function ProductCard({ product }) {
                 </span>
               )}
             </div>
-            {hasDiscount && (
-              <Badge variant="sale">
-                -{product.discountPercentage}%
-              </Badge>
-            )}
           </div>
 
           {hasWholesale && (
@@ -88,7 +90,7 @@ export function ProductCard({ product }) {
                 <span className="text-base font-bold text-[var(--color-primary)]">
                   {formatPrice(product.wholesalePrice)}
                 </span>
-                <span className="text-xs text-[var(--color-text-muted)]">x {product.unitsToWholesalePrice} u.</span>
+                <span className="text-xs text-[var(--color-text-muted)]">x 1 u.</span>
               </div>
               {product.wholesaleComparePrice && (
                 <span className="text-sm text-[var(--color-text-muted)] line-through">
@@ -100,7 +102,7 @@ export function ProductCard({ product }) {
 
           <button
             onClick={handleAddToCart}
-            className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl bg-[var(--color-primary)] text-white text-sm font-semibold hover:opacity-90 transition-colors mt-3"
+            className="flex items-center justify-center gap-2 w-full px-4 py-2 rounded-xl bg-[var(--color-primary)] text-white text-sm font-semibold hover:opacity-90 transition-colors mt-3"
           >
             {quantity > 0 ? `Agregado (${quantity})` : 'Agregar al carrito'}
           </button>
@@ -108,7 +110,7 @@ export function ProductCard({ product }) {
           {hasWholesale && (
             <button
               onClick={handleAddWholesale}
-              className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl border border-[var(--color-primary)] text-[var(--color-primary)] text-sm font-semibold hover:bg-[var(--color-primary)]/10 transition-colors mt-2"
+              className="flex items-center justify-center gap-2 w-full px-4 py-2 rounded-xl border border-[var(--color-primary)] text-[var(--color-primary)] text-sm font-semibold hover:bg-[var(--color-primary)]/10 transition-colors mt-2"
             >
               Agregar por {product.unitsToWholesalePrice} u.
             </button>

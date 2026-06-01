@@ -20,16 +20,16 @@ export function Navbar() {
               <img
                 src={siteData.company.logo}
                 alt={siteData.business.name}
-                className="w-10 h-10 rounded-xl object-cover"
+                className="w-12 h-12 rounded-xl object-cover"
               />
             ) : (
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-secondary)] flex items-center justify-center">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-secondary)] flex items-center justify-center">
                 <span className="text-white font-bold text-lg">
                   {siteData.business.name.charAt(0)}
                 </span>
               </div>
             )}
-            <span className="text-xl font-bold text-[var(--color-text-primary)]">
+            <span className="text-xl font-bold text-[var(--color-text-primary)] hidden sm:block">
               {siteData.business.name}
             </span>
           </Link>
@@ -64,7 +64,8 @@ export function Navbar() {
           </div>
 
           <div className="flex items-center gap-4 md:hidden">
-            <Link to="/carrito" className="relative p-2">
+            <Link to="/carrito" className="relative p-2 flex items-center gap-1">
+              <span className="text-sm font-semibold text-[var(--color-text-secondary)]">Carrito</span>
               <ShoppingCart className="w-5 h-5 text-[var(--color-text-secondary)]" />
               {totalItems > 0 && (
                 <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[var(--color-primary)] text-white text-xs font-bold flex items-center justify-center">

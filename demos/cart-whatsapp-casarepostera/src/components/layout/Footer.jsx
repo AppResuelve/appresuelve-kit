@@ -15,11 +15,11 @@ export function Footer() {
                 <img
                   src={siteData.company.logo}
                   alt={siteData.business.name}
-                  className="w-10 h-10 rounded-xl object-cover"
+                  className="w-20 h-20 rounded-xl object-cover"
                 />
               ) : (
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-secondary)] flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">
+                <div className="w-20 h-20 rounded-xl bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-secondary)] flex items-center justify-center">
+                  <span className="text-white font-bold text-2xl">
                     {siteData.business.name.charAt(0)}
                   </span>
                 </div>
