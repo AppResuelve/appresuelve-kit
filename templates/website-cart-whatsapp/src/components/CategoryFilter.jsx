@@ -11,13 +11,13 @@ export function CategoryFilter({
     <>
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/50 z-[60] lg:hidden pointer-events-auto"
           onClick={onClose}
         />
       )}
 
       <aside
-        className={`fixed lg:static inset-y-0 left-0 z-50 lg:z-auto w-72 bg-[var(--color-surface)] lg:bg-transparent border-r lg:border-r-0 border-[var(--color-border)] transform transition-transform duration-300 lg:transform-none ${
+        className={`fixed lg:static inset-y-0 left-0 z-[70] lg:z-auto w-72 bg-[var(--color-surface)] lg:bg-transparent border-r lg:border-r-0 border-[var(--color-border)] transform transition-transform duration-300 lg:transform-none ${
           isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}
       >
@@ -44,7 +44,7 @@ export function CategoryFilter({
                 }}
                 className={`w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
                   selectedCategory === category
-                    ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20'
+                    ? 'bg-[var(--color-primary)]/10 text-[var(--color-primary)] border border-[var(--color-primary)]/20'
                     : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-card)]'
                 }`}
               >

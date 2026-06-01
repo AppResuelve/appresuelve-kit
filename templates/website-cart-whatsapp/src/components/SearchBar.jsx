@@ -1,14 +1,21 @@
+import { useState } from 'react'
 import { X } from 'lucide-react'
 
-export function SearchBar({ value, onChange, placeholder = 'Buscar productos...' }) {
+export function SearchBar({ value, onChange, placeholder = 'Buscar productos...', onFocus, onBlur }) {
+  const [ignoreBlur, setIgnoreBlur] = useState(false)
+
   return (
     <div className="relative">
       <input
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        onFocus={onFocus}
+        onBlur={() => {
+          if (!ignoreBlur) onBlur()
+        }}
         placeholder={placeholder}
-        className="w-full px-5 py-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-card)] text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] focus:outline-none focus:border-cyan-500 transition-colors pl-12"
+        className="w-full px-4 py-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-card)] text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] focus:outline-none focus:border-[var(--color-primary)] transition-colors pl-11 h-11"
       />
       <svg
         className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--color-text-muted)]"
@@ -25,7 +32,12 @@ export function SearchBar({ value, onChange, placeholder = 'Buscar productos...'
       </svg>
       {value && (
         <button
-          onClick={() => onChange('')}
+          onClick={(e) => {
+            e.stopPropagation()
+            setIgnoreBlur(true)
+            onChange('')
+            setTimeout(() => setIgnoreBlur(false), 100)
+          }}
           className="absolute right-4 top-1/2 -translate-y-1/2 p-1 text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] transition-colors"
         >
           <X className="w-4 h-4" />

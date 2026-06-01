@@ -8,7 +8,7 @@ export default function NotFound() {
     <section className="pt-20 md:pt-32 pb-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto text-center">
         <div className="mb-8">
-          <span className="text-[120px] sm:text-[180px] font-black bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent opacity-20">
+          <span className="text-[120px] sm:text-[180px] font-black bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] bg-clip-text text-transparent opacity-20">
             {title}
           </span>
         </div>
@@ -20,7 +20,7 @@ export default function NotFound() {
         </p>
         <Link
           to={buttonLink}
-          className="inline-flex items-center justify-center px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-600 text-white font-semibold hover:-translate-y-0.5 transition-all"
+          className="inline-flex items-center justify-center px-8 py-4 rounded-2xl bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] text-white font-semibold hover:-translate-y-0.5 transition-all"
         >
           {buttonText}
         </Link>

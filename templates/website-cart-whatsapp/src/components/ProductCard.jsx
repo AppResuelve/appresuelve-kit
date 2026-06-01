@@ -1,12 +1,14 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight } from 'lucide-react'
 import { Badge } from './ui/Badge'
 import { useCart } from '../context/CartContext'
-import { siteData } from '../data/siteData'
+import { formatPrice } from '../data/products'
 
 export function ProductCard({ product }) {
   const { addItem, getItemQuantity } = useCart()
   const quantity = getItemQuantity(product.id)
+
+  const hasDiscount = product.comparePrice && product.discountPercentage
+  const hasWholesale = product.wholesalePrice && product.unitsToWholesalePrice
 
   const getBadgeVariant = (tag) => {
     if (tag === 'nuevo') return 'new'
@@ -20,17 +22,30 @@ export function ProductCard({ product }) {
     addItem(product.id)
   }
 
+  const handleAddWholesale = (e) => {
+    e.preventDefault()
+    addItem(product.id, product.unitsToWholesalePrice)
+  }
+
   return (
-    <div className="group rounded-2xl border border-[var(--color-border)] bg-[var(--color-card)] overflow-hidden hover:border-cyan-500/30 transition-all duration-300 flex flex-col">
+    <div className="group relative rounded-2xl border border-[var(--color-border)] bg-[var(--color-card)] overflow-hidden transition-all duration-300 flex flex-col">
+      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#08A58C]/10 to-transparent opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
       <div className="relative">
         <Link to={`/producto/${product.slug}`} className="block">
           <div className="aspect-square overflow-hidden">
             <img
               src={product.images[0]}
               alt={product.name}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              className="w-full h-full object-cover md:group-hover:scale-105 transition-transform duration-500"
             />
           </div>
+          {hasDiscount && (
+            <div className="absolute bottom-3 right-3">
+              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-bold bg-emerald-500 text-white">
+                {product.discountPercentage}% OFF
+              </span>
+            </div>
+          )}
           {product.tags.length > 0 && (
             <div className="absolute top-3 left-3 flex gap-2">
               {product.tags.map((tag) => (
@@ -43,30 +58,64 @@ export function ProductCard({ product }) {
         </Link>
       </div>
 
-      <div className="p-4 flex flex-col flex-1">
-        <p className="text-xs text-[var(--color-text-muted)] mb-1">
-          {product.category}
-        </p>
+      <div className="p-2 flex flex-col flex-1">
         <Link to={`/producto/${product.slug}`} className="block flex-1">
-          <h3 className="text-base font-semibold text-[var(--color-text-primary)] group-hover:text-cyan-400 transition-colors">
+          <h3 className="text-base font-semibold text-[var(--color-text-primary)] line-clamp-2">
             {product.name}
           </h3>
         </Link>
 
-        <div className="mt-auto pt-4">
-          <span className="text-lg font-bold text-cyan-400 block mb-3">
-            {product.price}
-          </span>
+        <div className="mt-auto pt-3">
+          <div className="flex items-start justify-between mb-1">
+            <div>
+              <div className="flex items-center gap-1">
+                <span className="text-lg font-bold text-[var(--color-primary)]">
+                  {formatPrice(product.retailPrice)}
+                </span>
+                <span className="text-xs text-[var(--color-text-muted)]">x 1 u.</span>
+              </div>
+              {hasDiscount && (
+                <span className="text-sm text-[var(--color-text-muted)] line-through">
+                  {formatPrice(product.comparePrice)}
+                </span>
+              )}
+            </div>
+          </div>
+
+          {hasWholesale && (
+            <>
+              <p className="text-xs text-[var(--color-text-secondary)] mb-1">
+                mayorista (a partir de {product.unitsToWholesalePrice} u.)
+              </p>
+              <div className="flex items-center gap-1 mb-1">
+                <span className="text-base font-bold text-[var(--color-primary)]">
+                  {formatPrice(product.wholesalePrice)}
+                </span>
+                <span className="text-xs text-[var(--color-text-muted)]">x 1 u.</span>
+              </div>
+              {product.wholesaleComparePrice && (
+                <span className="text-sm text-[var(--color-text-muted)] line-through">
+                  {formatPrice(product.wholesaleComparePrice)}
+                </span>
+              )}
+            </>
+          )}
 
           <button
             onClick={handleAddToCart}
-            className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl bg-green-500 text-white text-sm font-semibold hover:bg-green-600 transition-colors"
+            className="flex items-center justify-center gap-2 w-full px-4 py-2 rounded-xl bg-[var(--color-primary)] text-white text-sm font-semibold hover:opacity-90 transition-colors mt-3"
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-            </svg>
             {quantity > 0 ? `Agregado (${quantity})` : 'Agregar al carrito'}
           </button>
+
+          {hasWholesale && (
+            <button
+              onClick={handleAddWholesale}
+              className="flex items-center justify-center gap-2 w-full px-4 py-2 rounded-xl border border-[var(--color-primary)] text-[var(--color-primary)] text-sm font-semibold hover:bg-[var(--color-primary)]/10 transition-colors mt-2"
+            >
+              Agregar por {product.unitsToWholesalePrice} u.
+            </button>
+          )}
         </div>
       </div>
     </div>

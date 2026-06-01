@@ -1,27 +1,22 @@
-import { MapPin, Phone, Mail, Clock } from 'lucide-react'
-import { siteData, content } from '../data/siteData'
-import { ContactForm } from '../components/ContactForm'
-import { SectionHeader } from '../components/ui/SectionHeader'
+import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { siteData, content } from "../data/siteData";
+import { ContactForm } from "../components/ContactForm";
+import { SectionHeader } from "../components/ui/SectionHeader";
 
 export default function Contact() {
-  const { badge, title, subtitle, infoTitle } = content.contact
+  const { title, subtitle, infoTitle } = content.contact;
 
   return (
     <>
-      <section className="relative pt-20 md:pt-32 pb-16 px-4 sm:px-6 lg:px-8">
+      <section className="relative pt-10 md:pt-20 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-[-120px] left-[-120px] w-[320px] h-[320px] rounded-full bg-cyan-400/10 blur-3xl" />
-          <div className="absolute bottom-[-120px] right-[-120px] w-[320px] h-[320px] rounded-full bg-blue-600/10 blur-3xl" />
+          <div className="absolute top-[-120px] left-[-120px] w-[320px] h-[320px] rounded-full bg-[var(--color-primary)]/10 blur-3xl" />
+          <div className="absolute bottom-[-120px] right-[-120px] w-[320px] h-[320px] rounded-full bg-[var(--color-secondary)]/10 blur-3xl" />
         </div>
 
         <div className="relative max-w-7xl mx-auto">
           <div className="max-w-3xl">
-            {badge && (
-              <span className="inline-block px-4 py-1.5 rounded-full text-sm font-semibold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 mb-6">
-                {badge}
-              </span>
-            )}
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[0.95] text-[var(--color-text-primary)] mb-6">
+            <h1 className="text-4xl font-black tracking-tight leading-[0.95] text-[var(--color-text-primary)] mb-6">
               {title}
             </h1>
             <p className="text-xl text-[var(--color-text-secondary)] leading-relaxed">
@@ -31,7 +26,7 @@ export default function Contact() {
         </div>
       </section>
 
-      <section className="py-24 px-4 sm:px-6 lg:px-8">
+      <section className="pb-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16">
             <ContactForm />
@@ -41,9 +36,9 @@ export default function Contact() {
 
               <div className="space-y-6">
                 {siteData.company.address && (
-                  <div className="flex items-start gap-4 p-6 rounded-2xl border border-[var(--color-border)] bg-[var(--color-card)]">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-400/20 to-blue-600/20 flex items-center justify-center shrink-0">
-                      <MapPin className="w-5 h-5 text-cyan-400" />
+                  <div className="flex items-start gap-4 p-4 rounded-2xl border border-[var(--color-border)] bg-[var(--color-card)]">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[var(--color-primary)]/20 to-[var(--color-secondary)]/20 flex items-center justify-center shrink-0">
+                      <MapPin className="w-5 h-5 text-[var(--color-primary)]" />
                     </div>
                     <div>
                       <p className="text-sm font-bold text-[var(--color-text-muted)] mb-1">
@@ -59,10 +54,10 @@ export default function Contact() {
                 {siteData.company.phone && (
                   <a
                     href={`tel:${siteData.company.phone}`}
-                    className="flex items-start gap-4 p-6 rounded-2xl border border-[var(--color-border)] bg-[var(--color-card)] hover:border-cyan-500/30 transition-colors"
+                    className="flex items-start gap-4 p-4 rounded-2xl border border-[var(--color-border)] bg-[var(--color-card)] hover:border-[var(--color-primary)]/30 transition-colors"
                   >
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-400/20 to-blue-600/20 flex items-center justify-center shrink-0">
-                      <Phone className="w-5 h-5 text-cyan-400" />
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[var(--color-primary)]/20 to-[var(--color-secondary)]/20 flex items-center justify-center shrink-0">
+                      <Phone className="w-5 h-5 text-[var(--color-primary)]" />
                     </div>
                     <div>
                       <p className="text-sm font-bold text-[var(--color-text-muted)] mb-1">
@@ -78,10 +73,10 @@ export default function Contact() {
                 {siteData.company.email && (
                   <a
                     href={`mailto:${siteData.company.email}`}
-                    className="flex items-start gap-4 p-6 rounded-2xl border border-[var(--color-border)] bg-[var(--color-card)] hover:border-cyan-500/30 transition-colors"
+                    className="flex items-start gap-4 p-4 rounded-2xl border border-[var(--color-border)] bg-[var(--color-card)] hover:border-[var(--color-primary)]/30 transition-colors"
                   >
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-400/20 to-blue-600/20 flex items-center justify-center shrink-0">
-                      <Mail className="w-5 h-5 text-cyan-400" />
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[var(--color-primary)]/20 to-[var(--color-secondary)]/20 flex items-center justify-center shrink-0">
+                      <Mail className="w-5 h-5 text-[var(--color-primary)]" />
                     </div>
                     <div>
                       <p className="text-sm font-bold text-[var(--color-text-muted)] mb-1">
@@ -95,9 +90,9 @@ export default function Contact() {
                 )}
 
                 {siteData.company.businessHours && (
-                  <div className="flex items-start gap-4 p-6 rounded-2xl border border-[var(--color-border)] bg-[var(--color-card)]">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-400/20 to-blue-600/20 flex items-center justify-center shrink-0">
-                      <Clock className="w-5 h-5 text-cyan-400" />
+                  <div className="flex items-start gap-4 p-4 rounded-2xl border border-[var(--color-border)] bg-[var(--color-card)]">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[var(--color-primary)]/20 to-[var(--color-secondary)]/20 flex items-center justify-center shrink-0">
+                      <Clock className="w-5 h-5 text-[var(--color-primary)]" />
                     </div>
                     <div>
                       <p className="text-sm font-bold text-[var(--color-text-muted)] mb-1">
@@ -110,10 +105,26 @@ export default function Contact() {
                   </div>
                 )}
               </div>
+
+              {siteData.company.address && (
+                <div className="mt-8 rounded-2xl overflow-hidden border border-[var(--color-border)]">
+                  <iframe
+                    title={`Mapa de ${siteData.company.address}`}
+                    src={`https://maps.google.com/maps?q=${encodeURIComponent(siteData.company.address)}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                    width="100%"
+                    height="300"
+                    style={{ border: 0 }}
+                    allowFullScreen=""
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="w-full"
+                  />
+                </div>
+              )}
             </div>
           </div>
         </div>
       </section>
     </>
-  )
+  );
 }

@@ -15,18 +15,15 @@ export default function Home() {
     <>
       <section className="relative pt-20 md:pt-32 pb-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-[-120px] left-[-120px] w-[320px] h-[320px] rounded-full bg-cyan-400/10 blur-3xl" />
-          <div className="absolute bottom-[-120px] right-[-120px] w-[320px] h-[320px] rounded-full bg-blue-600/10 blur-3xl" />
+          <div className="absolute top-[-120px] left-[-120px] w-[320px] h-[320px] rounded-full bg-[var(--color-primary)]/10 blur-3xl" />
+          <div className="absolute bottom-[-120px] right-[-120px] w-[320px] h-[320px] rounded-full bg-[var(--color-secondary)]/10 blur-3xl" />
         </div>
 
         <div className="relative max-w-7xl mx-auto">
           <div className="max-w-3xl">
-            <span className="inline-block px-4 py-1.5 rounded-full text-sm font-semibold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 mb-6">
-              {hero.badge}
-            </span>
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[0.95] text-[var(--color-text-primary)] mb-6">
               {hero.title}{' '}
-              <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] bg-clip-text text-transparent">
                 {hero.highlightedText}
               </span>
             </h1>
@@ -36,14 +33,14 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 to={hero.primaryButtonLink}
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-600 text-white font-semibold hover:-translate-y-0.5 transition-all"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] text-white font-semibold hover:-translate-y-0.5 transition-all"
               >
                 {hero.primaryButtonText}
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <Link
                 to={hero.secondaryButtonLink}
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl border border-[var(--color-border)] text-[var(--color-text-primary)] font-semibold hover:-translate-y-0.5 hover:border-cyan-500/50 transition-all"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl border border-[var(--color-border)] text-[var(--color-text-primary)] font-semibold hover:-translate-y-0.5 hover:border-[var(--color-primary)]/50 transition-all"
               >
                 {hero.secondaryButtonText}
               </Link>
@@ -63,7 +60,7 @@ export default function Home() {
           <div className="text-center mt-12">
             <Link
               to="/productos"
-              className="inline-flex items-center gap-2 text-cyan-400 font-semibold hover:underline"
+              className="inline-flex items-center gap-2 text-[var(--color-primary)] font-semibold hover:underline"
             >
               Ver todos los productos
               <ArrowRight className="w-4 h-4" />
@@ -84,10 +81,10 @@ export default function Home() {
               <Link
                 key={category}
                 to={`/productos?cat=${encodeURIComponent(category)}`}
-                className="group p-8 rounded-2xl border border-[var(--color-border)] bg-[var(--color-card)] hover:border-cyan-500/30 transition-all text-center"
+                className="group p-8 rounded-2xl border border-[var(--color-border)] bg-[var(--color-card)] hover:border-[var(--color-primary)]/30 transition-all text-center"
               >
-                <div className="w-14 h-14 rounded-xl bg-cyan-500/10 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                  <ShoppingBag className="w-6 h-6 text-cyan-400" />
+                <div className="w-14 h-14 rounded-xl bg-[var(--color-primary)]/10 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                  <ShoppingBag className="w-6 h-6 text-[var(--color-primary)]" />
                 </div>
                 <h3 className="font-semibold text-[var(--color-text-primary)]">
                   {category}
@@ -102,8 +99,8 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="rounded-3xl border border-[var(--color-border)] bg-[var(--color-card)] p-12 md:p-16 text-center relative overflow-hidden">
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <div className="absolute top-[-100px] left-[-100px] w-[300px] h-[300px] rounded-full bg-cyan-400/5 blur-3xl" />
-              <div className="absolute bottom-[-100px] right-[-100px] w-[300px] h-[300px] rounded-full bg-blue-600/5 blur-3xl" />
+              <div className="absolute top-[-100px] left-[-100px] w-[300px] h-[300px] rounded-full bg-[var(--color-primary)]/5 blur-3xl" />
+              <div className="absolute bottom-[-100px] right-[-100px] w-[300px] h-[300px] rounded-full bg-[var(--color-secondary)]/5 blur-3xl" />
             </div>
             <div className="relative">
               <h2 className="text-3xl md:text-4xl font-bold text-[var(--color-text-primary)] mb-4">
@@ -114,7 +111,7 @@ export default function Home() {
               </p>
               <Link
                 to={cta.buttonLink}
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-600 text-white font-semibold hover:-translate-y-0.5 transition-all"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] text-white font-semibold hover:-translate-y-0.5 transition-all"
               >
                 {cta.buttonText}
                 <ArrowRight className="w-5 h-5" />

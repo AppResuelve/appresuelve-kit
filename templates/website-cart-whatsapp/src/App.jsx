@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { CartProvider } from './context/CartContext'
 import { Navbar, Footer } from './components/layout'
@@ -8,8 +9,15 @@ import ProductDetail from './pages/ProductDetail'
 import Cart from './pages/Cart'
 import Contact from './pages/Contact'
 import NotFound from './pages/NotFound'
+import { siteData } from './data/siteData'
+import { generatePalette, applyPalette } from './utils/generatePalette'
 
 function App() {
+  useEffect(() => {
+    const palette = generatePalette(siteData.branding)
+    applyPalette(palette)
+  }, [])
+
   return (
     <BrowserRouter>
       <CartProvider>

@@ -1,14 +1,10 @@
 export const categories = [
   'Todos',
-  'Electrónica',
-  'Indumentaria',
-  'Hogar',
-  'Servicios',
+  'Ingredientes',
+  'Decoraciones',
 ]
 
 export const categorySlugs = {
-  'Electrónica': 'electronica',
-  'Indumentaria': 'indumentaria',
-  'Hogar': 'hogar',
-  'Servicios': 'servicios',
+  'Ingredientes': 'ingredientes',
+  'Decoraciones': 'decoraciones',
 }

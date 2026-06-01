@@ -1,7 +1,7 @@
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { ArrowLeft, Tag, Check } from 'lucide-react'
 import { content } from '../data/siteData'
-import { products, getProductBySlug, getProductsByCategory } from '../data/products'
+import { products, getProductBySlug, getProductsByCategory, formatPrice } from '../data/products'
 import { ProductGallery } from '../components/ProductGallery'
 import { ProductGrid } from '../components/ProductGrid'
 import { Badge } from '../components/ui/Badge'
@@ -25,7 +25,7 @@ export default function ProductDetail() {
           </h1>
           <Link
             to="/productos"
-            className="text-cyan-400 font-medium hover:underline"
+            className="text-[var(--color-primary)] font-medium hover:underline"
           >
             Volver a productos
           </Link>
@@ -44,7 +44,15 @@ export default function ProductDetail() {
     setTimeout(() => setJustAdded(false), 2000)
   }
 
+  const handleAddWholesale = () => {
+    addItem(product.id, product.unitsToWholesalePrice)
+    setJustAdded(true)
+    setTimeout(() => setJustAdded(false), 2000)
+  }
+
   const quantity = getItemQuantity(product.id)
+  const hasDiscount = product.comparePrice && product.discountPercentage
+  const hasWholesale = product.wholesalePrice && product.unitsToWholesalePrice
 
   return (
     <section className="pt-20 md:pt-32 pb-24 px-4 sm:px-6 lg:px-8">
@@ -58,14 +66,14 @@ export default function ProductDetail() {
         </button>
 
         <div className="grid lg:grid-cols-2 gap-12 mb-24">
-          <ProductGallery images={product.images} productName={product.name} />
+          <ProductGallery images={product.images} productName={product.name} discountPercentage={hasDiscount ? product.discountPercentage : null} />
 
           <div>
             <div className="mb-6">
               <p className="text-sm text-[var(--color-text-muted)] mb-2">
                 {content.productDetail.categoryLabel}
               </p>
-              <span className="inline-block px-3 py-1 rounded-full text-sm font-medium bg-cyan-500/10 text-cyan-400">
+              <span className="inline-block px-3 py-1 rounded-full text-sm font-medium bg-[var(--color-primary)]/10 text-[var(--color-primary)]">
                 {product.category}
               </span>
             </div>
@@ -78,11 +86,40 @@ export default function ProductDetail() {
               {product.shortDescription}
             </p>
 
-            <div className="mb-8">
-              <span className="text-4xl font-bold text-cyan-400">
-                {product.price}
-              </span>
+            <div className="flex items-start justify-between mb-1">
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-3xl font-bold text-[var(--color-primary)]">
+                    {formatPrice(product.retailPrice)}
+                  </span>
+                  <span className="text-base text-[var(--color-text-muted)]">x 1 u.</span>
+                </div>
+                {hasDiscount && (
+                  <span className="text-lg text-[var(--color-text-muted)] line-through">
+                    {formatPrice(product.comparePrice)}
+                  </span>
+                )}
+              </div>
             </div>
+
+            {hasWholesale && (
+              <div className="mt-4 mb-6">
+                <p className="text-sm text-[var(--color-text-secondary)] mb-1">
+                  mayorista (a partir de {product.unitsToWholesalePrice} u.)
+                </p>
+                <div className="flex items-center gap-2">
+                  <span className="text-2xl font-bold text-[var(--color-primary)]">
+                    {formatPrice(product.wholesalePrice)}
+                  </span>
+                  <span className="text-sm text-[var(--color-text-muted)]">x 1 u.</span>
+                </div>
+                {product.wholesaleComparePrice && (
+                  <span className="text-base text-[var(--color-text-muted)] line-through">
+                    {formatPrice(product.wholesaleComparePrice)}
+                  </span>
+                )}
+              </div>
+            )}
 
             {product.tags.length > 0 && (
               <div className="mb-8">
@@ -108,8 +145,8 @@ export default function ProductDetail() {
               onClick={handleAddToCart}
               className={`flex items-center justify-center gap-2 w-full px-8 py-4 rounded-2xl font-semibold transition-all ${
                 justAdded
-                  ? 'bg-emerald-500 text-white'
-                  : 'bg-green-500 text-white hover:bg-green-600'
+                  ? 'bg-[var(--color-primary)] text-white'
+                  : 'bg-[var(--color-primary)] text-white hover:opacity-90'
               }`}
             >
               {justAdded ? (
@@ -119,14 +156,20 @@ export default function ProductDetail() {
                 </>
               ) : (
                 <>
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                  </svg>
                   {content.productDetail.addToCart}
                   {quantity > 0 && ` (${quantity} en carrito)`}
                 </>
               )}
             </button>
+
+            {hasWholesale && (
+              <button
+                onClick={handleAddWholesale}
+                className="flex items-center justify-center gap-2 w-full px-8 py-4 rounded-2xl font-semibold border border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10 transition-all mt-3"
+              >
+                Agregar por {product.unitsToWholesalePrice} u. (mayorista)
+              </button>
+            )}
           </div>
         </div>
 

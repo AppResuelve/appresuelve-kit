@@ -1,18 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Nunito:wght@400;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --color-primary: #06b6d4;
-  --color-secondary: #2563eb;
-  --color-background: #0a0a0a;
-  --color-surface: #111111;
-  --color-border: #262626;
-  --color-text-primary: #ffffff;
-  --color-text-secondary: #a3a3a3;
-  --color-text-muted: #525252;
-  --color-card: #111111;
-  --color-accent: #06b6d4;
+  --color-primary: #08a58c;
+  --color-primary-hover: #07a89d;
+  --color-secondary: #c9e7e4;
+  --color-secondary-muted: #b8d4d0;
+
+  --color-background: #ffffff;
+  --color-surface: #f8f9fa;
+  --color-card: #ffffff;
+  --color-elevated: #ffffff;
+
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #4a4a4a;
+  --color-text-muted: #6a6a6a;
+
+  --color-border: #e5e5e5;
+  --color-border-hover: #d0d0d0;
+
+  --font-heading: 'DM Serif Display', serif;
+  --font-body: 'Nunito', sans-serif;
+
+  color-scheme: light;
 }
 
 * {
@@ -23,10 +36,17 @@ html {
   scroll-behavior: smooth;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+body, p, span, li, td, input, textarea, button, a, label {
+  font-family: var(--font-body);
+}
+
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   background-color: var(--color-background);
   color: var(--color-text-primary);
   -webkit-font-smoothing: antialiased;
@@ -34,8 +54,8 @@ body {
 }
 
 ::selection {
-  background-color: rgba(6, 182, 212, 0.3);
-  color: #ffffff;
+  background-color: rgba(8, 165, 140, 0.2);
+  color: var(--color-text-primary);
 }
 
 ::-webkit-scrollbar {
@@ -44,7 +64,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-background);
+  background: var(--color-surface);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -53,5 +73,5 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-text-muted);
+  background: var(--color-border-hover);
 }

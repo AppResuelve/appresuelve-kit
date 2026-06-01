@@ -1,35 +1,36 @@
 export const siteData = {
   business: {
-    name: 'AppResuelve',
+    name: 'Casa Repostera',
   },
 
   contact: {
-    receiveEmailsAt: 'tu@email.com',
+    receiveEmailsAt: 'hola@casarepostera.com.ar',
     whatsapp: '3704345801',
   },
 
   company: {
-    slogan: 'Soluciones digitales a medida',
+    slogan: 'Ingredientes y decoraciones para repostería profesional',
     description:
-      'Transformamos ideas en realidades digitales. Desarrollo web y móvil personalizado para empresas y emprendedores que buscan destacar.',
-    logo: '',
+      'Somos tu aliado en la cocina. Encontrá los mejores ingredientes de repostería y decoraciones para crear obras maestras dulces.',
+    logo: 'https://res.cloudinary.com/dfun5vbsf/image/upload/v1780181814/flavourlab-ojo_300_x_300_px_2_qp3hwv.png',
 
-    phone: '+54 11 1234-5678',
-    email: 'tu@email.com',
-    address: 'Buenos Aires, Argentina',
+    phone: '+54 11 5555-1234',
+    email: 'hola@casarepostera.com.ar',
+    address: 'Av. Belgrano 322, Resistencia, Chaco',
 
     businessHours: 'Lunes a Viernes 9:00 - 18:00',
 
     social: {
-      instagram: 'https://instagram.com/tu_usuario',
+      instagram: 'https://instagram.com/casarepostera',
       facebook: '',
       linkedin: '',
     },
   },
 
   branding: {
-    primaryColor: '#06b6d4',
-    secondaryColor: '#2563eb',
+    primaryColor: '#08A58C',
+    secondaryColor: '#C9E7E4',
+    fontCombinationId: 'artesanal',
   },
 
   navbar: {
@@ -39,7 +40,7 @@ export const siteData = {
       { label: 'Carrito', href: '/carrito', showCartCount: true },
       { label: 'Contacto', href: '/contacto' },
     ],
-    ctaText: 'Cotizar',
+    ctaText: 'Ver carrito',
   },
 
   footer: {
@@ -56,17 +57,16 @@ export const siteData = {
       {
         title: 'Categorías',
         links: [
-          { label: 'Categoría 1', href: '/productos?cat=categoria-1' },
-          { label: 'Categoría 2', href: '/productos?cat=categoria-2' },
-          { label: 'Categoría 3', href: '/productos?cat=categoria-3' },
+          { label: 'Ingredientes', href: '/productos?cat=Ingredientes' },
+          { label: 'Decoraciones', href: '/productos?cat=Decoraciones' },
         ],
       },
       {
         title: 'Contacto',
         links: [
-          { label: 'tu@email.com', href: 'mailto:tu@email.com' },
-          { label: '+54 11 1234-5678', href: 'tel:+541112345678' },
-          { label: 'WhatsApp', href: 'https://wa.me/5491112345678' },
+          { label: 'hola@casarepostera.com.ar', href: 'mailto:hola@casarepostera.com.ar' },
+          { label: '+54 11 5555-1234', href: 'tel:+541155551234' },
+          { label: 'WhatsApp', href: 'https://wa.me/3704345801' },
         ],
       },
     ],
@@ -74,7 +74,7 @@ export const siteData = {
 
   cart: {
     persistenceEnabled: true,
-    persistenceKey: 'appresuelve-cart',
+    persistenceKey: 'casarepostera-cart',
     showDeliveryModal: true,
   },
 }
@@ -82,11 +82,11 @@ export const siteData = {
 export const content = {
   home: {
     hero: {
-      badge: 'Bienvenido',
-      title: 'Productos de calidad',
-      highlightedText: 'para tu negocio',
+      badge: 'Bienvenidos',
+      title: 'Los mejores productos',
+      highlightedText: 'para tu repostería',
       subtitle:
-        'Descubrí nuestra selección de productos diseñados para satisfacer tus necesidades.',
+        'Descubrí nuestra selección de ingredientes y decoraciones para crear preparaciones únicas.',
       primaryButtonText: 'Ver productos',
       primaryButtonLink: '/productos',
       secondaryButtonText: 'Contactar',

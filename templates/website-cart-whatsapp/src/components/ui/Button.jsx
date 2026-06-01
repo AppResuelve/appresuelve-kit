@@ -1,7 +1,7 @@
 export function ButtonPrimary({ children, className = '', ...props }) {
   return (
     <button
-      className={`inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-600 text-[var(--color-text-primary)] font-semibold outline-4 outline-cyan-300/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.25),0_10px_25px_rgba(6,182,212,0.35)] hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
+      className={`inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] text-white font-semibold hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
       {...props}
     >
       {children}
@@ -12,7 +12,7 @@ export function ButtonPrimary({ children, className = '', ...props }) {
 export function ButtonSecondary({ children, className = '', ...props }) {
   return (
     <button
-      className={`inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-[var(--color-border)] text-[var(--color-text-primary)] font-semibold hover:-translate-y-0.5 hover:border-cyan-500/50 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
+      className={`inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-[var(--color-border)] text-[var(--color-text-primary)] font-semibold hover:-translate-y-0.5 hover:border-[var(--color-primary)]/50 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
       {...props}
     >
       {children}
@@ -26,7 +26,7 @@ export function ButtonWhatsApp({ children, className = '', ...props }) {
       href="https://wa.me/5491112345678"
       target="_blank"
       rel="noopener noreferrer"
-      className={`inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-green-500 text-white font-semibold hover:-translate-y-0.5 hover:bg-green-600 transition-all duration-200 ${className}`}
+      className={`inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[var(--color-primary)] text-white font-semibold hover:opacity-90 transition-all duration-200 ${className}`}
       {...props}
     >
       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">

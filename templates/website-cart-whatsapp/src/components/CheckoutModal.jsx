@@ -50,12 +50,12 @@ export function CheckoutModal({
           <div className="space-y-3">
             <button
               onClick={onConfirmPickup}
-              className="w-full p-4 rounded-xl border border-[var(--color-border)] text-left hover:border-cyan-500/30 transition-colors group"
+              className="w-full p-4 rounded-xl border border-[var(--color-border)] text-left hover:border-[var(--color-primary)]/30 transition-colors group"
             >
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-cyan-500/10 flex items-center justify-center group-hover:bg-cyan-500/20 transition-colors">
+                <div className="w-10 h-10 rounded-lg bg-[var(--color-primary)]/10 flex items-center justify-center group-hover:bg-[var(--color-primary)]/20 transition-colors">
                   <svg
-                    className="w-5 h-5 text-cyan-400"
+                    className="w-5 h-5 text-[var(--color-primary)]"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -78,12 +78,12 @@ export function CheckoutModal({
 
             <button
               onClick={onConfirmDelivery}
-              className="w-full p-4 rounded-xl border border-[var(--color-border)] text-left hover:border-cyan-500/30 transition-colors group"
+              className="w-full p-4 rounded-xl border border-[var(--color-border)] text-left hover:border-[var(--color-primary)]/30 transition-colors group"
             >
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center group-hover:bg-green-500/20 transition-colors">
+                <div className="w-10 h-10 rounded-lg bg-[var(--color-primary)]/10 flex items-center justify-center group-hover:bg-[var(--color-primary)]/20 transition-colors">
                   <svg
-                    className="w-5 h-5 text-green-400"
+                    className="w-5 h-5 text-[var(--color-primary)]"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -174,7 +174,7 @@ export function DeliveryFormModal({ isOpen, onClose, onConfirm, onBack }) {
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Juan Pérez"
                 required
-                className="w-full px-4 py-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] focus:outline-none focus:border-cyan-500 transition-colors"
+                className="w-full px-4 py-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] focus:outline-none focus:border-[var(--color-primary)] transition-colors"
               />
             </div>
 
@@ -188,7 +188,7 @@ export function DeliveryFormModal({ isOpen, onClose, onConfirm, onBack }) {
                 placeholder="Calle Falsa 123, Buenos Aires"
                 required
                 rows={3}
-                className="w-full px-4 py-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] focus:outline-none focus:border-cyan-500 transition-colors resize-none"
+                className="w-full px-4 py-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] focus:outline-none focus:border-[var(--color-primary)] transition-colors resize-none"
               />
             </div>
           </div>
@@ -203,7 +203,7 @@ export function DeliveryFormModal({ isOpen, onClose, onConfirm, onBack }) {
             </button>
             <button
               type="submit"
-              className="flex-1 py-3 rounded-xl bg-green-500 text-white font-semibold hover:bg-green-600 hover:-translate-y-0.5 transition-all"
+              className="flex-1 py-3 rounded-xl bg-[var(--color-primary)] text-white font-semibold hover:opacity-90 hover:-translate-y-0.5 transition-all"
             >
               Confirmar
             </button>

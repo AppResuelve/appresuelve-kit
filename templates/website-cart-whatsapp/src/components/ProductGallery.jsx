@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
-export function ProductGallery({ images, productName }) {
+export function ProductGallery({ images, productName, discountPercentage }) {
   const [currentIndex, setCurrentIndex] = useState(0)
 
   if (!images || images.length === 0) {
@@ -30,6 +30,14 @@ export function ProductGallery({ images, productName }) {
           alt={`${productName} - Imagen ${currentIndex + 1}`}
           className="w-full h-full object-cover"
         />
+
+        {discountPercentage && (
+          <div className="absolute top-3 right-3">
+            <span className="inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-bold bg-emerald-500 text-white">
+              {discountPercentage}% OFF
+            </span>
+          </div>
+        )}
 
         {images.length > 1 && (
           <>
@@ -60,7 +68,7 @@ export function ProductGallery({ images, productName }) {
               }}
               className={`shrink-0 w-20 h-20 rounded-xl overflow-hidden border-2 transition-colors ${
                 index === currentIndex
-                  ? 'border-cyan-400'
+                  ? 'border-[var(--color-primary)]'
                   : 'border-transparent opacity-60 hover:opacity-100'
               }`}
             >

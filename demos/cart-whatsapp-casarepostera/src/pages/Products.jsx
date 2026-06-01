@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { SlidersHorizontal } from "lucide-react";
-import { content } from "../data/siteData";
+import { SlidersHorizontal, MessageCircle } from "lucide-react";
+import { content, siteData } from "../data/siteData";
 import { categories } from "../data/categories";
 import { searchProducts } from "../data/products";
 import { ProductGrid } from "../components/ProductGrid";
@@ -25,18 +25,25 @@ export default function Products() {
     }
   }, [searchParams]);
 
+  const filteredProducts = searchProducts(searchQuery, selectedCategory);
+  const hasActiveFilters = searchQuery || selectedCategory !== "Todos";
+
   useEffect(() => {
     if (isFilterOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     }
     return () => {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     };
   }, [isFilterOpen]);
 
-  const filteredProducts = searchProducts(searchQuery, selectedCategory);
+  useEffect(() => {
+    if (searchQuery && filteredProducts.length === 0) {
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    }
+  }, [searchQuery, filteredProducts.length]);
 
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
@@ -53,16 +60,10 @@ export default function Products() {
     setSearchParams({});
   };
 
-  const hasActiveFilters = searchQuery || selectedCategory !== "Todos";
-
   return (
     <section className="pt-10 md:pt-20 pb-16 px-3 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <SectionHeader
-          title={title}
-          subtitle={subtitle}
-          className="mb-8"
-        />
+        <SectionHeader title={title} subtitle={subtitle} className="mb-8" />
 
         <div className="flex flex-col lg:flex-row gap-8">
           <CategoryFilter
@@ -90,7 +91,7 @@ export default function Products() {
                   className="lg:hidden shrink-0 h-11 flex items-center gap-2 px-3 py-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-card)] text-[var(--color-text-primary)]"
                 >
                   <SlidersHorizontal className="w-5 h-5" />
-                  {!isSearchFocused && (
+                  {!isSearchFocused && !searchQuery && (
                     <span className="text-sm font-medium">Filtros</span>
                   )}
                 </button>
@@ -120,12 +121,24 @@ export default function Products() {
                 <p className="text-[var(--color-text-secondary)] mb-6">
                   {noResults}
                 </p>
-                <button
-                  onClick={handleClearFilters}
-                  className="text-[var(--color-primary)] font-medium hover:underline"
-                >
-                  {clearFilters}
-                </button>
+                {searchQuery ? (
+                  <a
+                    href={`https://wa.me/${siteData.contact.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(`Hola! Me gustaría saber si tienen disponible el producto: ${searchQuery}`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border-2 border-[var(--color-primary)] text-[var(--color-primary)] font-semibold hover:bg-[var(--color-primary)]/10 transition-all duration-200"
+                  >
+                    <MessageCircle className="w-5 h-5" />
+                    Preguntar en WhatsApp
+                  </a>
+                ) : (
+                  <button
+                    onClick={handleClearFilters}
+                    className="text-[var(--color-primary)] font-medium hover:underline"
+                  >
+                    {clearFilters}
+                  </button>
+                )}
               </div>
             )}
           </div>

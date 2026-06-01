@@ -11,11 +11,19 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center">
-                <span className="text-white font-bold">
-                  {siteData.business.name.charAt(0)}
-                </span>
-              </div>
+              {siteData.company.logo ? (
+                <img
+                  src={siteData.company.logo}
+                  alt={siteData.business.name}
+                  className="w-20 h-20 rounded-xl object-cover"
+                />
+              ) : (
+                <div className="w-20 h-20 rounded-xl bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-secondary)] flex items-center justify-center">
+                  <span className="text-white font-bold text-2xl">
+                    {siteData.business.name.charAt(0)}
+                  </span>
+                </div>
+              )}
               <span className="text-xl font-bold text-[var(--color-text-primary)]">
                 {siteData.business.name}
               </span>
@@ -35,7 +43,7 @@ export function Footer() {
                   <li key={linkIndex}>
                     <Link
                       to={link.href}
-                      className="text-sm text-[var(--color-text-secondary)] hover:text-cyan-400 transition-colors"
+                      className="text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors"
                     >
                       {link.label}
                     </Link>
@@ -52,7 +60,7 @@ export function Footer() {
             <ul className="space-y-4">
               {siteData.company.address && (
                 <li className="flex items-start gap-3 text-sm text-[var(--color-text-secondary)]">
-                  <MapPin className="w-5 h-5 shrink-0 text-cyan-400" />
+                  <MapPin className="w-5 h-5 shrink-0 text-[var(--color-primary)]" />
                   <span>{siteData.company.address}</span>
                 </li>
               )}
@@ -60,9 +68,9 @@ export function Footer() {
                 <li>
                   <a
                     href={`tel:${siteData.company.phone}`}
-                    className="flex items-center gap-3 text-sm text-[var(--color-text-secondary)] hover:text-cyan-400 transition-colors"
+                    className="flex items-center gap-3 text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors"
                   >
-                    <Phone className="w-5 h-5 shrink-0 text-cyan-400" />
+                    <Phone className="w-5 h-5 shrink-0 text-[var(--color-primary)]" />
                     <span>{siteData.company.phone}</span>
                   </a>
                 </li>
@@ -71,16 +79,16 @@ export function Footer() {
                 <li>
                   <a
                     href={`mailto:${siteData.company.email}`}
-                    className="flex items-center gap-3 text-sm text-[var(--color-text-secondary)] hover:text-cyan-400 transition-colors"
+                    className="flex items-center gap-3 text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors"
                   >
-                    <Mail className="w-5 h-5 shrink-0 text-cyan-400" />
+                    <Mail className="w-5 h-5 shrink-0 text-[var(--color-primary)]" />
                     <span>{siteData.company.email}</span>
                   </a>
                 </li>
               )}
               {siteData.company.businessHours && (
                 <li className="flex items-start gap-3 text-sm text-[var(--color-text-secondary)]">
-                  <Clock className="w-5 h-5 shrink-0 text-cyan-400" />
+                  <Clock className="w-5 h-5 shrink-0 text-[var(--color-primary)]" />
                   <span>{siteData.company.businessHours}</span>
                 </li>
               )}
