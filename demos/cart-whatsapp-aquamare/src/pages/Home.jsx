@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, ShoppingBag, Package } from 'lucide-react'
+import { ArrowRight, ShoppingBag } from 'lucide-react'
 import { siteData, content } from '../data/siteData'
-import { products, getFeaturedProducts } from '../data/products'
+import { getFeaturedProducts } from '../data/products'
 import { categories } from '../data/categories'
 import { ProductGrid } from '../components/ProductGrid'
 import { SectionHeader } from '../components/ui/SectionHeader'
+import { HeroSection } from '../components/shared/HeroSection'
 
 export default function Home() {
   const { hero, featuredTitle, featuredSubtitle, categoriesTitle, categoriesSubtitle, cta } =
@@ -13,41 +14,18 @@ export default function Home() {
 
   return (
     <>
-      <section className="relative pt-20 md:pt-32 pb-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-[-120px] left-[-120px] w-[320px] h-[320px] rounded-full bg-[var(--color-primary)]/10 blur-3xl" />
-          <div className="absolute bottom-[-120px] right-[-120px] w-[320px] h-[320px] rounded-full bg-[var(--color-secondary)]/10 blur-3xl" />
-        </div>
-
-        <div className="relative max-w-7xl mx-auto">
-          <div className="max-w-3xl">
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[0.95] text-[var(--color-text-primary)] mb-6">
-              {hero.title}{' '}
-              <span className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] bg-clip-text text-transparent">
-                {hero.highlightedText}
-              </span>
-            </h1>
-            <p className="text-xl text-[var(--color-text-secondary)] leading-relaxed mb-8">
-              {hero.subtitle}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link
-                to={hero.primaryButtonLink}
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] text-white font-semibold hover:-translate-y-0.5 transition-all"
-              >
-                {hero.primaryButtonText}
-                <ArrowRight className="w-5 h-5" />
-              </Link>
-              <Link
-                to={hero.secondaryButtonLink}
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl border border-[var(--color-border)] text-[var(--color-text-primary)] font-semibold hover:-translate-y-0.5 hover:border-[var(--color-primary)]/50 transition-all"
-              >
-                {hero.secondaryButtonText}
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroSection
+        backgroundImage="https://res.cloudinary.com/dfun5vbsf/image/upload/v1780335055/2-slide-1742912533167-796466520-6f2cdc04a09fc5ae382ba0c57ef55bc81742912534-1920-1920_znr78u.webp"
+        mobileBackgroundImage="https://res.cloudinary.com/dfun5vbsf/image/upload/v1780335033/2-slide-1742912533174-7912303143-573f2805802c87b6a9eaa87f2d4134ef1742912534-480-0_yxxjaj.webp"
+        overlayColor="#000000"
+        overlayOpacity={0}
+        height="min-h-[70vh]"
+        textAlign="center"
+        ctaText={hero.primaryButtonText}
+        ctaLink={hero.primaryButtonLink}
+        secondaryCtaText={hero.secondaryButtonText}
+        secondaryCtaLink={hero.secondaryButtonLink}
+      />
 
       <section className="py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
