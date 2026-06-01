@@ -9,6 +9,7 @@ import ProductDetail from './pages/ProductDetail'
 import Cart from './pages/Cart'
 import Contact from './pages/Contact'
 import NotFound from './pages/NotFound'
+import { FloatingWhatsAppButton } from './components/ui/FloatingWhatsAppButton'
 import { siteData } from './data/siteData'
 import { generatePalette, applyPalette } from './utils/generatePalette'
 
@@ -35,6 +36,7 @@ function App() {
             </Routes>
           </main>
           <Footer />
+          <FloatingWhatsAppButton />
         </div>
       </CartProvider>
     </BrowserRouter>

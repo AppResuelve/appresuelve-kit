@@ -9,6 +9,8 @@ import ProductDetail from './pages/ProductDetail'
 import Cart from './pages/Cart'
 import Contact from './pages/Contact'
 import NotFound from './pages/NotFound'
+import { TopBanner } from './components/shared/TopBanner'
+import { FloatingWhatsAppButton } from './components/ui/FloatingWhatsAppButton'
 import { siteData } from './data/siteData'
 import { generatePalette, applyPalette } from './utils/generatePalette'
 
@@ -23,6 +25,12 @@ function App() {
       <CartProvider>
         <ScrollToTop />
         <div className="min-h-screen flex flex-col">
+          <TopBanner
+            text="¡Aprovechá con un 24% OFF hasta el 15/6!"
+            backgroundColor="#022179"
+            textColor="#ffffff"
+            dismissible={true}
+          />
           <Navbar />
           <main className="flex-1">
             <Routes>
@@ -35,6 +43,7 @@ function App() {
             </Routes>
           </main>
           <Footer />
+          <FloatingWhatsAppButton />
         </div>
       </CartProvider>
     </BrowserRouter>
