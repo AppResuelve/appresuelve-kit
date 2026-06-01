@@ -1,29 +1,46 @@
-import { Link } from 'react-router-dom'
-import { ArrowRight, ShoppingBag, Package } from 'lucide-react'
-import { siteData, content } from '../data/siteData'
-import { products, getFeaturedProducts } from '../data/products'
-import { categories } from '../data/categories'
-import { ProductGrid } from '../components/ProductGrid'
-import { SectionHeader } from '../components/ui/SectionHeader'
-import { HeroCarousel } from '../components/shared/HeroCarousel'
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
+import { siteData, content } from "../data/siteData";
+import { getFeaturedProducts } from "../data/products";
+import { categories } from "../data/categories";
+import { ProductGrid } from "../components/ProductGrid";
+import { SectionHeader } from "../components/ui/SectionHeader";
+import { HeroCarousel } from "../components/shared/HeroCarousel";
 
 export default function Home() {
-  const { hero, featuredTitle, featuredSubtitle, categoriesTitle, categoriesSubtitle, cta } =
-    content.home
-  const featuredProducts = getFeaturedProducts()
+  const {
+    hero,
+    featuredTitle,
+    featuredSubtitle,
+    categoriesTitle,
+    categoriesSubtitle,
+    cta,
+  } = content.home;
+  const featuredProducts = getFeaturedProducts();
 
-  return (
+const categoryImages = [
+  'https://picsum.photos/seed/aceite1/600/400',
+  'https://picsum.photos/seed/aceite2/600/400',
+  'https://picsum.photos/seed/aceite3/600/400',
+  'https://picsum.photos/seed/aditivos/600/400',
+  'https://picsum.photos/seed/limpieza/600/400',
+]
+
+const displayCategories = categories.slice(1).map((cat, i) => ({
+  name: cat,
+  image: categoryImages[i] || categoryImages[0],
+}))
+
+return (
     <>
       <section className="w-full">
         <HeroCarousel
           images={siteData.branding.carouselImages}
-          aspectRatio={siteData.branding.carouselAspectRatio}
-          maxHeight={siteData.branding.carouselMaxHeight}
-          objectFit={siteData.branding.carouselObjectFit}
+          mobileImages={siteData.branding.carouselMobileImages}
           autoplay={siteData.branding.carouselAutoplay}
           autoplayInterval={siteData.branding.carouselAutoplayInterval}
           showDots={true}
-          showArrows={false}
+          showArrows={true}
         />
       </section>
 
@@ -90,21 +107,32 @@ export default function Home() {
             subtitle={categoriesSubtitle}
             className="text-center mb-16"
           />
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {categories.slice(1).map((category) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {displayCategories.map((cat) => (
               <Link
-                key={category}
-                to={`/productos?cat=${encodeURIComponent(category)}`}
-                className="group p-8 rounded-2xl border border-[var(--color-border)] bg-[var(--color-card)] hover:border-[var(--color-primary)]/30 transition-all text-center"
+                key={cat.name}
+                to={`/productos?cat=${encodeURIComponent(cat.name)}`}
+                className="group relative rounded-lg overflow-hidden max-h-[100px]"
               >
-                <div className="w-14 h-14 rounded-xl bg-[var(--color-primary)]/10 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                  <ShoppingBag className="w-6 h-6 text-[var(--color-primary)]" />
+                <img
+                  src={cat.image}
+                  alt={cat.name}
+                  className="w-full h-[100px] object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                  <h3 className="text-white font-semibold text-lg">{cat.name}</h3>
                 </div>
-                <h3 className="font-semibold text-[var(--color-text-primary)]">
-                  {category}
-                </h3>
               </Link>
             ))}
+          </div>
+          <div className="text-center mt-12">
+            <Link
+              to="/productos"
+              className="inline-flex items-center gap-2 text-[var(--color-primary)] font-semibold hover:underline"
+            >
+              Ver todas las categorías
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </section>
@@ -135,5 +163,5 @@ export default function Home() {
         </div>
       </section>
     </>
-  )
+  );
 }

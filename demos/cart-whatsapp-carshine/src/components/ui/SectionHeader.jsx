@@ -1,4 +1,6 @@
 export function SectionHeader({ badge, title, subtitle, className = "" }) {
+  const isCentered = className.includes('text-center')
+
   return (
     <div className={`mb-12 ${className}`}>
       {badge && (
@@ -12,10 +14,10 @@ export function SectionHeader({ badge, title, subtitle, className = "" }) {
         </h2>
       )}
       {subtitle && (
-        <p className="text-lg text-[var(--color-text-secondary)] max-w-2xl">
+        <p className={`text-lg text-[var(--color-text-secondary)] max-w-2xl ${isCentered ? 'mx-auto' : ''}`}>
           {subtitle}
         </p>
       )}
     </div>
-  );
+  )
 }
