@@ -123,7 +123,7 @@ export default function Products() {
                 </p>
                 {searchQuery ? (
                   <a
-                    href={`https://wa.me/${siteData.contact.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(`Hola! Me gustaría saber si tienen disponible el producto: ${searchQuery}`)}`}
+                    href={`https://wa.me/${siteData.contact.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(`🔍 ¡Hola! Me gustaría saber si tienen disponible el producto: ${searchQuery}`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border-2 border-[var(--color-primary)] text-[var(--color-primary)] font-semibold hover:bg-[var(--color-primary)]/10 transition-all duration-200"

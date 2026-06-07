@@ -16,20 +16,20 @@ export default function Cart() {
 
   const generateWhatsAppMessage = (deliveryData = null) => {
     const itemsList = items
-      .map((item) => `- ${item.quantity}x ${item.name} - ${formatPrice(item.unitPrice)} c/u`)
+      .map((item) => `• ${item.quantity}x ${item.name} — ${formatPrice(item.unitPrice)} c/u`)
       .join('\n')
 
     let deliverySection = ''
     if (deliveryData) {
-      deliverySection = `\nDatos de envío:\nNombre: ${deliveryData.name}\nDirección: ${deliveryData.address}`
+      deliverySection = `\n\n📦 *Datos de envío:*\n👤 Nombre: ${deliveryData.name}\n📍 Dirección: ${deliveryData.address}`
     }
 
-    const message = `Hola.
-Quiero solicitar:
+    const message = `🛒 *Nuevo pedido*
 
+📋 *Productos:*
 ${itemsList}
 
-${total}: $${totalPrice.toLocaleString('es-AR')}${deliverySection}`
+💰 *${total}:* $${totalPrice.toLocaleString('es-AR')}${deliverySection}`
 
     return encodeURIComponent(message)
   }

@@ -56,14 +56,14 @@ export default function Turnos() {
 
   const buildWhatsAppMessage = () => {
     const daysStr = form.days.join(", ");
-    const message = `Hola. Quiero solicitar un turno:
+    const message = `🦷 *Solicitud de turno*
 
-*¿Primera visita?:* ${form.firstVisit === "si" ? "Sí" : "No"}
-*Servicio:* ${form.service}
-*Día preferido:* ${daysStr}
-*Horario:* ${TIME_BANDS.find((t) => t.value === form.timeBand)?.label || form.timeBand}
-*Nombre:* ${form.name.trim()}
-*Teléfono:* ${form.phone.trim()}`;
+🏥 *¿Primera visita?:* ${form.firstVisit === "si" ? "Sí" : "No"}
+🔧 *Servicio:* ${form.service}
+📅 *Día preferido:* ${daysStr}
+⏰ *Horario:* ${TIME_BANDS.find((t) => t.value === form.timeBand)?.label || form.timeBand}
+👤 *Nombre:* ${form.name.trim()}
+📱 *Teléfono:* ${form.phone.trim()}`;
 
     return encodeURIComponent(message);
   };
