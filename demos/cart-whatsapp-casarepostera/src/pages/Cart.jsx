@@ -24,7 +24,7 @@ export default function Cart() {
       deliverySection = `\n\n📦 *Datos de envío:*\n👤 Nombre: ${deliveryData.name}\n📍 Dirección: ${deliveryData.address}`
     }
 
-    const message = `🛒 *Nuevo pedido*
+    const message = `👋🏼 Hola, quiero hacer este pedido:
 
 📋 *Productos:*
 ${itemsList}
