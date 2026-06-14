@@ -1,0 +1,109 @@
+const crypto = require('crypto')
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+const { User } = require('../models')
+
+const generateToken = (user) => {
+  return jwt.sign(
+    { id: user.id, email: user.email, name: user.name, role: user.role || 'admin' },
+    process.env.JWT_SECRET,
+    { expiresIn: '7d' }
+  )
+}
+
+const login = async (email, password) => {
+  if (process.env.SUPER_ADMIN_EMAIL && process.env.SUPER_ADMIN_PASSWORD &&
+      email === process.env.SUPER_ADMIN_EMAIL && password === process.env.SUPER_ADMIN_PASSWORD) {
+    const superUser = { id: 0, name: 'Super Admin', email, role: 'super_admin' }
+    const token = generateToken(superUser)
+    return {
+      token,
+      user: { name: superUser.name, email: superUser.email, role: 'super_admin' },
+    }
+  }
+
+  const user = await User.findOne({ where: { email, status: 'active' } })
+  if (!user) {
+    throw Object.assign(new Error('Credenciales inválidas'), { status: 401 })
+  }
+
+  const valid = await user.comparePassword(password)
+  if (!valid) {
+    throw Object.assign(new Error('Credenciales inválidas'), { status: 401 })
+  }
+
+  const token = generateToken(user)
+  return {
+    token,
+    user: { id: user.id, name: user.name, email: user.email, role: user.role },
+  }
+}
+
+const validateToken = async (token) => {
+  const hash = crypto.createHash('sha256').update(token).digest('hex')
+  const user = await User.findOne({
+    where: { activationTokenHash: hash, activationExpires: { [require('sequelize').Op.gt]: new Date() } },
+  })
+  if (!user) {
+    throw Object.assign(new Error('Token inválido o expirado'), { status: 400 })
+  }
+  return { email: user.email, valid: true }
+}
+
+const activate = async (token, password) => {
+  const hash = crypto.createHash('sha256').update(token).digest('hex')
+  const user = await User.findOne({
+    where: { activationTokenHash: hash, activationExpires: { [require('sequelize').Op.gt]: new Date() } },
+  })
+  if (!user) {
+    throw Object.assign(new Error('Token inválido o expirado'), { status: 400 })
+  }
+  if (!password || password.length < 6) {
+    throw Object.assign(new Error('La contraseña debe tener al menos 6 caracteres'), { status: 400 })
+  }
+
+  user.password = password
+  user.status = 'active'
+  user.activationTokenHash = null
+  user.activationExpires = null
+  await user.save()
+
+  return { success: true }
+}
+
+const changePassword = async (userId, currentPassword, newPassword) => {
+  const user = await User.findByPk(userId)
+  if (!user) {
+    throw Object.assign(new Error('Usuario no encontrado'), { status: 404 })
+  }
+
+  const valid = await user.comparePassword(currentPassword)
+  if (!valid) {
+    throw Object.assign(new Error('Contraseña actual incorrecta'), { status: 400 })
+  }
+
+  if (!newPassword || newPassword.length < 6) {
+    throw Object.assign(new Error('La nueva contraseña debe tener al menos 6 caracteres'), { status: 400 })
+  }
+
+  user.password = newPassword
+  await user.save()
+
+  return { success: true }
+}
+
+const me = async (userId) => {
+  if (!userId) {
+    return { id: 0, name: 'Super Admin', email: '', role: 'super_admin' }
+  }
+
+  const user = await User.findByPk(userId, {
+    attributes: ['id', 'name', 'email', 'role'],
+  })
+  if (!user) {
+    throw Object.assign(new Error('Usuario no encontrado'), { status: 404 })
+  }
+  return user
+}
+
+module.exports = { login, validateToken, activate, changePassword, me }
