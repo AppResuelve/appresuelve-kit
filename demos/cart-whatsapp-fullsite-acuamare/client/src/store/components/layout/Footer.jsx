@@ -125,26 +125,36 @@ export function Footer() {
           {/* Horarios + Redes */}
           <div>
             {/* Horarios */}
-            {store?.business_hours && (
-              <div className="mb-8">
-                <h4 className="text-sm font-semibold text-[var(--color-text-primary)] uppercase tracking-wider mb-4">
-                  Horarios
-                </h4>
-                <ul className="space-y-2 text-sm text-[var(--color-text-secondary)]">
-                  {store.business_hours.split(' / ').map((block, i) => {
-                    const parts = block.split(/\s+-\s+|\s+–\s+|\s+a\s+/)
-                    const days = parts[0]?.trim()
-                    const time = parts[1]?.trim()
-                    return (
+            {(() => {
+              const schedules = Array.isArray(store?.business_hours) ? store.business_hours : []
+              if (schedules.length === 0) return null
+
+              const DAY_NAMES = { mon: 'Lunes', tue: 'Martes', wed: 'Miércoles', thu: 'Jueves', fri: 'Viernes', sat: 'Sábado', sun: 'Domingo' }
+              const DAY_ORDER = { mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6, sun: 7 }
+              const formatted = schedules.map((block) => {
+                if (!block.days || block.days.length === 0 || !block.timeRanges?.length) return null
+                const sorted = [...block.days].sort((a, b) => DAY_ORDER[a] - DAY_ORDER[b])
+                const daysLabel = sorted.length > 2
+                  ? `${DAY_NAMES[sorted[0]].slice(0, 3)} a ${DAY_NAMES[sorted[sorted.length - 1]].slice(0, 3)}`
+                  : sorted.map((d) => DAY_NAMES[d]).join(' y ')
+                const timesLabel = block.timeRanges.map((r) => `${r.open} a ${r.close}`).join(' / ')
+                return { days: daysLabel, times: timesLabel }
+              }).filter(Boolean)
+
+              return (
+                <div className="mb-8">
+                  <h4 className="text-sm font-semibold text-[var(--color-text-primary)] uppercase tracking-wider mb-4">Horarios</h4>
+                  <ul className="space-y-2 text-sm text-[var(--color-text-secondary)]">
+                    {formatted.map((s, i) => (
                       <li key={i} className="flex flex-col gap-0.5">
-                        {days && <span className="font-semibold text-[var(--color-text-primary)]">{days}</span>}
-                        {time && <span className="text-xs opacity-80 bg-[var(--color-primary)]/10 px-2 py-0.5 rounded-md inline-block w-fit">{time}</span>}
+                        <span className="font-semibold text-[var(--color-text-primary)]">{s.days}</span>
+                        <span className="text-xs opacity-80 bg-[var(--color-primary)]/10 px-2 py-0.5 rounded-md inline-block w-fit">{s.times}</span>
                       </li>
-                    )
-                  })}
-                </ul>
-              </div>
-            )}
+                    ))}
+                  </ul>
+                </div>
+              )
+            })()}
 
             {/* Redes */}
             {(store?.instagram || store?.facebook || store?.tiktok || store?.youtube) && (

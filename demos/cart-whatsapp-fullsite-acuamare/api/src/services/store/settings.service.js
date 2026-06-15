@@ -12,7 +12,7 @@ const DEFAULTS = [
   { key: 'favicon_url', value: '' },
   { key: 'email', value: '' },
   { key: 'address', value: '' },
-  { key: 'business_hours', value: '' },
+  { key: 'business_hours', value: [] },
   { key: 'instagram', value: '' },
   { key: 'facebook', value: '' },
   { key: 'tiktok', value: '' },

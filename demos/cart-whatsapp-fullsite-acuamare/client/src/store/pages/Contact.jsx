@@ -93,21 +93,41 @@ export default function Contact() {
                   </a>
                 )}
 
-                {store?.business_hours && (
-                  <div className="flex items-start gap-4 p-4 rounded-2xl border border-[var(--color-border)] bg-[var(--color-card)]">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[var(--color-primary)]/20 to-[var(--color-secondary)]/20 flex items-center justify-center shrink-0">
-                      <Clock className="w-5 h-5 text-[var(--color-primary)]" />
+                {(() => {
+                  const schedules = Array.isArray(store?.business_hours) ? store.business_hours : []
+                  if (schedules.length === 0) return null
+
+                  const DAY_NAMES = { mon: 'Lunes', tue: 'Martes', wed: 'Miércoles', thu: 'Jueves', fri: 'Viernes', sat: 'Sábado', sun: 'Domingo' }
+                  const DAY_ORDER = { mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6, sun: 7 }
+                  const formatted = schedules.map((block) => {
+                    if (!block.days || block.days.length === 0 || !block.timeRanges?.length) return null
+                    const sorted = [...block.days].sort((a, b) => DAY_ORDER[a] - DAY_ORDER[b])
+                    const daysLabel = sorted.length > 2
+                      ? `${DAY_NAMES[sorted[0]].slice(0, 3)} a ${DAY_NAMES[sorted[sorted.length - 1]].slice(0, 3)}`
+                      : sorted.map((d) => DAY_NAMES[d]).join(' y ')
+                    const timesLabel = block.timeRanges.map((r) => `${r.open} a ${r.close}`).join(' / ')
+                    return { days: daysLabel, times: timesLabel }
+                  }).filter(Boolean)
+
+                  return (
+                    <div className="flex items-start gap-4 p-4 rounded-2xl border border-[var(--color-border)] bg-[var(--color-card)]">
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[var(--color-primary)]/20 to-[var(--color-secondary)]/20 flex items-center justify-center shrink-0">
+                        <Clock className="w-5 h-5 text-[var(--color-primary)]" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-bold text-[var(--color-text-muted)] mb-2">Horarios</p>
+                        <ul className="space-y-1.5 text-sm text-[var(--color-text-primary)]">
+                          {formatted.map((s, i) => (
+                            <li key={i} className="flex flex-col gap-0.5">
+                              <span className="font-semibold">{s.days}</span>
+                              <span className="text-xs opacity-70 bg-[var(--color-primary)]/10 px-2 py-0.5 rounded-md w-fit">{s.times}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-sm font-bold text-[var(--color-text-muted)] mb-1">
-                        Horarios
-                      </p>
-                      <p className="text-[var(--color-text-primary)]">
-                        {store?.business_hours}
-                      </p>
-                    </div>
-                  </div>
-                )}
+                  )
+                })()}
               </div>
 
               {store?.address && (

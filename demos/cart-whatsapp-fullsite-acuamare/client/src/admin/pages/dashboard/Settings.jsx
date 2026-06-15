@@ -3,6 +3,7 @@ import { Save, Loader } from 'lucide-react'
 import { Button, Input, Textarea } from '../../components/ui/Form'
 import { Card } from '../../components/ui/Card'
 import ImageUpload from '../../components/ImageUpload'
+import ScheduleInput from '../../components/ScheduleInput'
 import api from '../../../api/admin'
 
 const DEFAULT_SETTINGS = {
@@ -16,7 +17,7 @@ const DEFAULT_SETTINGS = {
   whatsapp_number: '',
   email: '',
   address: '',
-  business_hours: '',
+  business_hours: [],
   instagram: '',
   facebook: '',
 }
@@ -127,11 +128,9 @@ export default function Settings() {
                 value={settings.address}
                 onChange={(e) => handleChange('address', e.target.value)}
               />
-              <Input
-                label="Horario de atención"
+              <ScheduleInput
                 value={settings.business_hours}
-                onChange={(e) => handleChange('business_hours', e.target.value)}
-                placeholder="Lunes a Viernes 9:00 - 18:00"
+                onChange={(val) => handleChange('business_hours', val)}
               />
             </div>
           </Card>
