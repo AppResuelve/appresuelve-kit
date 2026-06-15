@@ -1,5 +1,6 @@
 const app = require('./app')
 const { sequelize } = require('./models')
+const { ensureDefaults } = require('./services/store/settings.service')
 
 const PORT = process.env.PORT || 3001
 
@@ -10,6 +11,9 @@ const start = async () => {
 
     await sequelize.sync()
     console.log('Modelos sincronizados.')
+
+    await ensureDefaults()
+    console.log('Defaults de settings insertados.')
 
     app.listen(PORT, () => {
       console.log(`Server corriendo en http://localhost:${PORT}`)

@@ -15,7 +15,8 @@ export function StoreProvider({ children }) {
         const settings = await settingsService.get()
         setStore(settings)
 
-        if (settings.store_status !== 'active') {
+        const status = settings.store_status || 'active'
+        if (status !== 'active') {
           console.log('[STORE] store not active — status:', settings.store_status)
           setCategories([])
           setProductsMap({})

@@ -14,6 +14,7 @@ const seedSettings = async (req, res, next) => {
       secondaryColor: { key: 'secondary_color', default: '#3b82f6' },
       logoUrl: 'logo_url',
       faviconUrl: 'favicon_url',
+      storeStatus: 'store_status',
       instagram: 'instagram',
       facebook: 'facebook',
       tiktok: 'tiktok',
