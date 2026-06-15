@@ -27,6 +27,18 @@ export default function StorePages() {
     }
   }, [store])
 
+  useEffect(() => {
+    if (store?.favicon_url) {
+      let link = document.querySelector("link[rel~='icon']")
+      if (!link) {
+        link = document.createElement('link')
+        link.rel = 'icon'
+        document.head.appendChild(link)
+      }
+      link.href = store.favicon_url
+    }
+  }, [store?.favicon_url])
+
   if (loading) return null
 
   const status = store?.store_status || 'active'
