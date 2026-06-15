@@ -1,0 +1,43 @@
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { AuthProvider } from './context/AuthContext'
+import { AlertProvider } from './components/ui/AlertContext'
+import ProtectedRoute from './components/ProtectedRoute'
+import Layout from './components/Layout'
+import Login from './pages/Login'
+import DashboardHome from './pages/dashboard/DashboardHome'
+import Products from './pages/dashboard/Products'
+import ProductForm from './pages/dashboard/ProductForm'
+import Categories from './pages/dashboard/Categories'
+import Settings from './pages/dashboard/Settings'
+import Media from './pages/dashboard/Media'
+import ChangeRequests from './pages/dashboard/ChangeRequests'
+import StorePage from './pages/store/Store'
+import Activate from './pages/Activate'
+
+export default function AdminApp() {
+  return (
+    <BrowserRouter>
+      <AuthProvider>
+        <AlertProvider>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/activate" element={<Activate />} />
+            <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+              <Route path="/dashboard" element={<DashboardHome />} />
+              <Route path="/dashboard/products" element={<Products />} />
+              <Route path="/dashboard/products/new" element={<ProductForm />} />
+              <Route path="/dashboard/products/:id/edit" element={<ProductForm />} />
+              <Route path="/dashboard/categories" element={<Categories />} />
+              <Route path="/dashboard/settings" element={<Settings />} />
+              <Route path="/dashboard/media" element={<Media />} />
+              <Route path="/dashboard/change-requests" element={<ChangeRequests />} />
+              <Route path="/store" element={<StorePage />} />
+            </Route>
+            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          </Routes>
+        </AlertProvider>
+      </AuthProvider>
+    </BrowserRouter>
+  )
+}
