@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer, useEffect } from 'react'
+import { createContext, useContext, useReducer, useEffect, useState, useRef } from 'react'
 import { siteData } from '../../data/siteData'
 import { useStore } from './StoreContext'
 
@@ -76,25 +76,41 @@ export function CartProvider({ children }) {
   const [state, dispatch] = useReducer(cartReducer, {
     items: [],
   })
+  const [loaded, setLoaded] = useState(false)
+  const hasProducts = useRef(false)
 
+  // Cargar del localStorage cuando productsMap cambia
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY)
-    if (!stored) return
+    if (!stored) {
+      setLoaded(true)
+      return
+    }
 
     try {
       const parsed = JSON.parse(stored)
-      const valid = parsed.filter((item) => productsMap[item.productId])
-      if (valid.length > 0) {
+      // Solo filtrar si productsMap ya tiene datos
+      if (Object.keys(productsMap).length > 0) {
+        hasProducts.current = true
+        const valid = parsed.filter((item) => productsMap[item.productId])
         dispatch({ type: 'LOAD_CART', payload: valid })
+      } else if (parsed.length > 0) {
+        // productsMap vacío (aún no cargó) → mantener items sin filtrar
+        dispatch({ type: 'LOAD_CART', payload: parsed })
       }
     } catch {
       // ignore
+    } finally {
+      setLoaded(true)
     }
   }, [productsMap])
 
+  // Guardar en localStorage solo después de la carga inicial
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state.items))
-  }, [state.items])
+    if (loaded) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state.items))
+    }
+  }, [state.items, loaded])
 
   const addItem = (productId, quantity = 1) => {
     dispatch({ type: 'ADD_ITEM', payload: { productId, quantity } })
