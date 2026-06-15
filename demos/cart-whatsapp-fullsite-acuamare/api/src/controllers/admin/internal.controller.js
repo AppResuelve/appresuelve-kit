@@ -1,5 +1,5 @@
 const crypto = require('crypto')
-const { User, Setting, Product } = require('../../models')
+const { User, Setting, Product, Service } = require('../../models')
 const emailService = require('../../services/email.service')
 
 const seedSettings = async (req, res, next) => {
@@ -143,4 +143,33 @@ const createAdmin = async (req, res, next) => {
   }
 }
 
-module.exports = { createAdmin, seedSettings, seedProducts }
+const seedServices = async (req, res, next) => {
+  try {
+    const services = req.body
+    if (!Array.isArray(services) || services.length === 0) {
+      return res.json({ created: 0 })
+    }
+
+    const slugify = (text) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').substring(0, 255)
+
+    const rows = services
+      .filter((s) => s.name?.trim())
+      .map((s) => ({
+        name: s.name.trim(),
+        slug: slugify(s.name.trim()),
+        description: s.description || null,
+        price: Number(s.price) || 0,
+        status: 'draft',
+      }))
+
+    if (rows.length > 0) {
+      await Service.bulkCreate(rows, { validate: true })
+    }
+
+    res.json({ created: rows.length })
+  } catch (err) {
+    next(err)
+  }
+}
+
+module.exports = { createAdmin, seedSettings, seedProducts, seedServices }
