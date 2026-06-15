@@ -168,7 +168,7 @@ export default function ScheduleInput({ value = [], onChange }) {
       )}
 
       {schedules.some((b) => b.days?.length > 0 && b.timeRanges?.length > 0) && (
-        <div className="px-3 py-2 rounded-lg bg-zinc-800/50 text-xs text-zinc-500 font-mono whitespace-pre-line">
+        <div className="px-4 py-3 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-sm text-cyan-300 whitespace-pre-line leading-relaxed">
           {formatPreview(schedules)}
         </div>
       )}
