@@ -8,6 +8,7 @@ const models = {
   Setting: require('./Setting')(sequelize, require('sequelize').DataTypes),
   Media: require('./Media')(sequelize, require('sequelize').DataTypes),
   ChangeRequest: require('./ChangeRequest')(sequelize, require('sequelize').DataTypes),
+  Service: require('./Service')(sequelize, require('sequelize').DataTypes),
 }
 
 Object.keys(models).forEach((modelName) => {

@@ -11,6 +11,8 @@ import Categories from './pages/dashboard/Categories'
 import Settings from './pages/dashboard/Settings'
 import Media from './pages/dashboard/Media'
 import ChangeRequests from './pages/dashboard/ChangeRequests'
+import Services from './pages/dashboard/Services'
+import ServiceForm from './pages/dashboard/ServiceForm'
 import StorePage from './pages/store/Store'
 import Activate from './pages/Activate'
 
@@ -31,6 +33,9 @@ export default function AdminApp() {
               <Route path="/dashboard/settings" element={<Settings />} />
               <Route path="/dashboard/media" element={<Media />} />
               <Route path="/dashboard/change-requests" element={<ChangeRequests />} />
+              <Route path="/dashboard/services" element={<Services />} />
+              <Route path="/dashboard/services/new" element={<ServiceForm />} />
+              <Route path="/dashboard/services/:id/edit" element={<ServiceForm />} />
               <Route path="/store" element={<StorePage />} />
             </Route>
             <Route path="/" element={<Navigate to="/dashboard" replace />} />

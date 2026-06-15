@@ -8,6 +8,7 @@ import {
   Image,
   Store,
   Key,
+  Briefcase,
   LogOut,
   X,
   Wrench,
@@ -20,6 +21,7 @@ import api from '../../api/admin'
 const ADMIN_ITEMS = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { to: '/dashboard/products', icon: Package, label: 'Productos' },
+  { to: '/dashboard/services', icon: Briefcase, label: 'Servicios' },
   { to: '/dashboard/categories', icon: Tags, label: 'Categorías' },
   { to: '/dashboard/media', icon: Image, label: 'Galería' },
   { to: '/dashboard/change-requests', icon: Wrench, label: 'Solicitar cambio' },
