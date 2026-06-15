@@ -45,7 +45,11 @@ function AdminApp() {
 
 export default function App() {
   const hostname = window.location.hostname
+  const pathname = window.location.pathname
   const isAdmin = hostname.startsWith('admin.')
+    || pathname.startsWith('/login')
+    || pathname.startsWith('/dashboard')
+    || pathname.startsWith('/activate')
 
   if (isAdmin) {
     return <AdminApp />
