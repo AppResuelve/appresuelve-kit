@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer, useEffect, useState, useRef } from 'react'
+import { createContext, useContext, useReducer, useEffect } from 'react'
 import { siteData } from '../../data/siteData'
 import { useStore } from './StoreContext'
 
@@ -63,9 +63,6 @@ function cartReducer(state, action) {
     case 'CLEAR_CART':
       return { ...state, items: [] }
 
-    case 'LOAD_CART':
-      return { ...state, items: action.payload }
-
     default:
       return state
   }
@@ -73,71 +70,29 @@ function cartReducer(state, action) {
 
 export function CartProvider({ children }) {
   const { productsMap } = useStore()
-  const [state, dispatch] = useReducer(cartReducer, {
-    items: [],
-  })
-  const [loaded, setLoaded] = useState(false)
-  const hasProducts = useRef(false)
 
-  // Cargar del localStorage cuando productsMap cambia
-  useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY)
-    if (!stored) {
-      setLoaded(true)
-      return
-    }
-
+  const [state, dispatch] = useReducer(cartReducer, undefined, () => {
     try {
-      const parsed = JSON.parse(stored)
-      // Solo filtrar si productsMap ya tiene datos
-      if (Object.keys(productsMap).length > 0) {
-        hasProducts.current = true
-        const valid = parsed.filter((item) => productsMap[item.productId])
-        dispatch({ type: 'LOAD_CART', payload: valid })
-      } else if (parsed.length > 0) {
-        // productsMap vacío (aún no cargó) → mantener items sin filtrar
-        dispatch({ type: 'LOAD_CART', payload: parsed })
-      }
+      const stored = localStorage.getItem(STORAGE_KEY)
+      return { items: stored ? JSON.parse(stored) : [] }
     } catch {
-      // ignore
-    } finally {
-      setLoaded(true)
+      return { items: [] }
     }
-  }, [productsMap])
+  })
 
-  // Guardar en localStorage solo después de la carga inicial
   useEffect(() => {
-    if (loaded) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state.items))
-    }
-  }, [state.items, loaded])
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state.items))
+  }, [state.items])
 
-  const addItem = (productId, quantity = 1) => {
-    dispatch({ type: 'ADD_ITEM', payload: { productId, quantity } })
-  }
-
-  const removeItem = (productId) => {
-    dispatch({ type: 'REMOVE_ITEM', payload: { productId } })
-  }
-
-  const updateQuantity = (productId, quantity) => {
-    dispatch({ type: 'UPDATE_QUANTITY', payload: { productId, quantity } })
-  }
-
-  const clearCart = () => {
-    dispatch({ type: 'CLEAR_CART' })
-  }
-
-  const getItemQuantity = (productId) => {
-    const item = state.items.find((item) => item.productId === productId)
-    return item ? item.quantity : 0
-  }
+  const storeReady = Object.keys(productsMap).length > 0
 
   const cartItems = state.items
     .map((item) => {
       const product = productsMap[item.productId]
+
       if (!product) {
-        // placeholder mientras carga productsMap
+        // API no cargó → placeholder. API cargó y no existe → producto huérfano → omitir
+        if (storeReady) return null
         return {
           id: item.productId,
           productId: item.productId,
@@ -168,6 +123,27 @@ export function CartProvider({ children }) {
   const totalItems = state.items.reduce((sum, item) => sum + item.quantity, 0)
 
   const totalPrice = cartItems.reduce((sum, item) => sum + item.subtotal, 0)
+
+  const addItem = (productId, quantity = 1) => {
+    dispatch({ type: 'ADD_ITEM', payload: { productId, quantity } })
+  }
+
+  const removeItem = (productId) => {
+    dispatch({ type: 'REMOVE_ITEM', payload: { productId } })
+  }
+
+  const updateQuantity = (productId, quantity) => {
+    dispatch({ type: 'UPDATE_QUANTITY', payload: { productId, quantity } })
+  }
+
+  const clearCart = () => {
+    dispatch({ type: 'CLEAR_CART' })
+  }
+
+  const getItemQuantity = (productId) => {
+    const item = state.items.find((item) => item.productId === productId)
+    return item ? item.quantity : 0
+  }
 
   const value = {
     items: cartItems,
