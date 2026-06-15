@@ -136,7 +136,21 @@ export function CartProvider({ children }) {
   const cartItems = state.items
     .map((item) => {
       const product = productsMap[item.productId]
-      if (!product) return null
+      if (!product) {
+        // placeholder mientras carga productsMap
+        return {
+          id: item.productId,
+          productId: item.productId,
+          name: 'Cargando...',
+          images: [],
+          retailPrice: 0,
+          wholesalePrice: null,
+          wholesaleMinQty: null,
+          quantity: item.quantity,
+          unitPrice: 0,
+          subtotal: 0,
+        }
+      }
 
       const hasWholesale = product.wholesalePrice && product.wholesaleMinQty
       const usesWholesale = hasWholesale && item.quantity >= product.wholesaleMinQty
