@@ -30,7 +30,7 @@ export default function ScheduleInput({ value = [], onChange }) {
   const schedules = Array.isArray(value) && value.length > 0 ? value : [{ days: [], timeRanges: [{ open: '09:00', close: '18:00' }] }]
 
   const handleChange = (newSchedules) => {
-    onChange(newSchedules.filter((b) => b.days && b.days.length > 0 && b.timeRanges && b.timeRanges.length > 0))
+    onChange(newSchedules)
   }
 
   const toggleDay = (blockIdx, day) => {
