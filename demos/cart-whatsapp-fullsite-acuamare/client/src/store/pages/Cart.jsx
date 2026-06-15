@@ -13,6 +13,7 @@ export default function Cart() {
   const { items, totalItems, totalPrice } = useCart()
   const { title, emptyTitle, emptyMessage, browseProducts, itemCount, subtotal, total, requestQuote } = content.cart
   const { store, loading } = useStore()
+  console.log('[CART PAGE] loading:', loading, 'items.length:', items.length, 'totalItems:', totalItems)
   const [showDeliveryModal, setShowDeliveryModal] = useState(false)
   const [showDeliveryForm, setShowDeliveryForm] = useState(false)
 

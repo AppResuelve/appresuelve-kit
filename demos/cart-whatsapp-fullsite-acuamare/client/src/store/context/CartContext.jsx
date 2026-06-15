@@ -74,7 +74,10 @@ export function CartProvider({ children }) {
   const [state, dispatch] = useReducer(cartReducer, undefined, () => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY)
-      return { items: stored ? JSON.parse(stored) : [] }
+      console.log('[CART] lazy initializer — localStorage:', stored)
+      const parsed = stored ? JSON.parse(stored) : []
+      console.log('[CART] lazy initializer — state.items:', JSON.stringify(parsed))
+      return { items: parsed }
     } catch {
       return { items: [] }
     }
@@ -84,37 +87,37 @@ export function CartProvider({ children }) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state.items))
   }, [state.items])
 
-  const cartItems = useMemo(() => state.items
-    .map((item) => {
-      const product = productsMap[item.productId]
+  const cartItems = useMemo(() => {
+    console.log('[CART] useMemo re-eval — productsMap keys:', Object.keys(productsMap).length, 'loading:', loading, 'state.items:', JSON.stringify(state.items))
+    const result = state.items
+      .map((item) => {
+        const product = productsMap[item.productId]
+        console.log('[CART] useMemo — productId:', item.productId, 'found:', !!product)
 
-      if (!product) {
-        // Mientras carga la API → placeholder. Después de cargar → producto huérfano (no existe en catálogo)
-        return {
-          id: item.productId,
-          productId: item.productId,
-          name: loading ? 'Cargando...' : 'Producto',
-          images: [],
-          retailPrice: 0,
-          wholesalePrice: null,
-          wholesaleMinQty: null,
-          quantity: item.quantity,
-          unitPrice: 0,
-          subtotal: 0,
+        if (!product) {
+          return {
+            id: item.productId,
+            productId: item.productId,
+            name: loading ? 'Cargando...' : 'Producto',
+            images: [],
+            retailPrice: 0,
+            wholesalePrice: null,
+            wholesaleMinQty: null,
+            quantity: item.quantity,
+            unitPrice: 0,
+            subtotal: 0,
+          }
         }
-      }
 
-      const hasWholesale = product.wholesalePrice && product.wholesaleMinQty
-      const usesWholesale = hasWholesale && item.quantity >= product.wholesaleMinQty
-      const unitPrice = usesWholesale ? product.wholesalePrice : product.retailPrice
+        const hasWholesale = product.wholesalePrice && product.wholesaleMinQty
+        const usesWholesale = hasWholesale && item.quantity >= product.wholesaleMinQty
+        const unitPrice = usesWholesale ? product.wholesalePrice : product.retailPrice
 
-      return {
-        ...product,
-        quantity: item.quantity,
-        unitPrice: Number(unitPrice),
-        subtotal: Number(unitPrice) * item.quantity,
-      }
-    }), [state.items, productsMap, loading])
+        return { ...product, quantity: item.quantity, unitPrice: Number(unitPrice), subtotal: Number(unitPrice) * item.quantity }
+      })
+    console.log('[CART] useMemo — cartItems:', result.length, 'items')
+    return result
+  }, [state.items, productsMap, loading])
 
   const totalItems = state.items.reduce((sum, item) => sum + item.quantity, 0)
 
