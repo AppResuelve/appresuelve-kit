@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer, useEffect } from 'react'
+import { createContext, useContext, useReducer, useEffect, useMemo } from 'react'
 import { siteData } from '../../data/siteData'
 import { useStore } from './StoreContext'
 
@@ -69,7 +69,7 @@ function cartReducer(state, action) {
 }
 
 export function CartProvider({ children }) {
-  const { productsMap } = useStore()
+  const { productsMap, loading } = useStore()
 
   const [state, dispatch] = useReducer(cartReducer, undefined, () => {
     try {
@@ -84,19 +84,16 @@ export function CartProvider({ children }) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state.items))
   }, [state.items])
 
-  const storeReady = Object.keys(productsMap).length > 0
-
-  const cartItems = state.items
+  const cartItems = useMemo(() => state.items
     .map((item) => {
       const product = productsMap[item.productId]
 
       if (!product) {
-        // API no cargó → placeholder. API cargó y no existe → producto huérfano → omitir
-        if (storeReady) return null
+        // Mientras carga la API → placeholder. Después de cargar → producto huérfano (no existe en catálogo)
         return {
           id: item.productId,
           productId: item.productId,
-          name: 'Cargando...',
+          name: loading ? 'Cargando...' : 'Producto',
           images: [],
           retailPrice: 0,
           wholesalePrice: null,
@@ -117,8 +114,7 @@ export function CartProvider({ children }) {
         unitPrice: Number(unitPrice),
         subtotal: Number(unitPrice) * item.quantity,
       }
-    })
-    .filter(Boolean)
+    }), [state.items, productsMap, loading])
 
   const totalItems = state.items.reduce((sum, item) => sum + item.quantity, 0)
 

@@ -12,7 +12,7 @@ import { ordersService } from '../../services/storeService'
 export default function Cart() {
   const { items, totalItems, totalPrice } = useCart()
   const { title, emptyTitle, emptyMessage, browseProducts, itemCount, subtotal, total, requestQuote } = content.cart
-  const { store } = useStore()
+  const { store, loading } = useStore()
   const [showDeliveryModal, setShowDeliveryModal] = useState(false)
   const [showDeliveryForm, setShowDeliveryForm] = useState(false)
 
@@ -81,6 +81,21 @@ ${itemsList}
       openWhatsApp(message)
       trackOrder()
     }
+  }
+
+  if (loading) {
+    return (
+      <section className="pt-20 md:pt-32 pb-24 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center py-16">
+            <div className="w-24 h-24 rounded-full bg-[var(--color-card)] flex items-center justify-center mx-auto mb-6 animate-pulse">
+              <ShoppingCart className="w-12 h-12 text-[var(--color-text-muted)]" />
+            </div>
+            <p className="text-[var(--color-text-secondary)]">Cargando catálogo...</p>
+          </div>
+        </div>
+      </section>
+    )
   }
 
   if (items.length === 0) {
