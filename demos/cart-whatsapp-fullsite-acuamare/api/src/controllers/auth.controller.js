@@ -42,12 +42,32 @@ const activate = async (req, res, next) => {
 
 const changePassword = async (req, res, next) => {
   try {
-    const { currentPassword, newPassword } = req.body
-    const result = await authService.changePassword(req.user.id, currentPassword, newPassword)
+    const { newPassword } = req.body
+    const result = await authService.changePassword(req.user.id, newPassword)
     res.json(result)
   } catch (err) {
     next(err)
   }
 }
 
-module.exports = { login, me, validateToken, activate, changePassword }
+const forgotPassword = async (req, res, next) => {
+  try {
+    const { email } = req.body
+    const result = await authService.forgotPassword(email)
+    res.json(result)
+  } catch (err) {
+    next(err)
+  }
+}
+
+const resetPassword = async (req, res, next) => {
+  try {
+    const { token, password } = req.body
+    const result = await authService.resetPassword(token, password)
+    res.json(result)
+  } catch (err) {
+    next(err)
+  }
+}
+
+module.exports = { login, me, validateToken, activate, changePassword, forgotPassword, resetPassword }

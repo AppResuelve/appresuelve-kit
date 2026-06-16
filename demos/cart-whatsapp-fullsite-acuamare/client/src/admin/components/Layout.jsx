@@ -2,10 +2,12 @@ import { useState, useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { Menu } from 'lucide-react'
 import Sidebar from './Sidebar'
+import api from '../../api/admin'
 
 const PAGE_TITLES = {
   '/dashboard': 'Dashboard',
   '/dashboard/products': 'Productos',
+  '/dashboard/services': 'Servicios',
   '/dashboard/categories': 'Categorías',
   '/dashboard/media': 'Galería',
   '/dashboard/settings': 'Configuración',
@@ -15,7 +17,14 @@ const PAGE_TITLES = {
 export default function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [logoUrl, setLogoUrl] = useState('')
   const location = useLocation()
+
+  useEffect(() => {
+    api.get('/admin/settings')
+      .then(({ data }) => setLogoUrl(data.logo_url || ''))
+      .catch(() => {})
+  }, [])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50)
@@ -30,7 +39,7 @@ export default function Layout() {
 
   return (
     <div className="min-h-screen bg-zinc-950">
-      <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} logoUrl={logoUrl} />
 
       {/* Mobile topbar */}
       <header

@@ -15,6 +15,8 @@ import Services from './pages/dashboard/Services'
 import ServiceForm from './pages/dashboard/ServiceForm'
 import StorePage from './pages/store/Store'
 import Activate from './pages/Activate'
+import ForgotPassword from './pages/ForgotPassword'
+import ResetPassword from './pages/ResetPassword'
 
 export default function AdminApp() {
   return (
@@ -23,8 +25,10 @@ export default function AdminApp() {
         <AlertProvider>
           <Routes>
             <Route path="/login" element={<Login />} />
-            <Route path="/activate" element={<Activate />} />
-            <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+              <Route path="/activate" element={<Activate />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
               <Route path="/dashboard" element={<DashboardHome />} />
               <Route path="/dashboard/products" element={<Products />} />
               <Route path="/dashboard/products/new" element={<ProductForm />} />

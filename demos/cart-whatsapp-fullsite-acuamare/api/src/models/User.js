@@ -45,6 +45,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       allowNull: true,
     },
+    resetTokenHash: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+    },
+    resetExpires: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
   }, {
     tableName: 'users',
     hooks: {

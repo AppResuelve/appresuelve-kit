@@ -71,15 +71,14 @@ const activate = async (token, password) => {
   return { success: true }
 }
 
-const changePassword = async (userId, currentPassword, newPassword) => {
+const changePassword = async (userId, newPassword) => {
+  if (!userId) {
+    throw Object.assign(new Error('El super admin no puede cambiar contraseña desde acá'), { status: 400 })
+  }
+
   const user = await User.findByPk(userId)
   if (!user) {
     throw Object.assign(new Error('Usuario no encontrado'), { status: 404 })
-  }
-
-  const valid = await user.comparePassword(currentPassword)
-  if (!valid) {
-    throw Object.assign(new Error('Contraseña actual incorrecta'), { status: 400 })
   }
 
   if (!newPassword || newPassword.length < 6) {
@@ -90,6 +89,51 @@ const changePassword = async (userId, currentPassword, newPassword) => {
   await user.save()
 
   return { success: true }
+}
+
+const emailService = require('./email.service')
+
+const forgotPassword = async (email) => {
+  const user = await User.findOne({ where: { email, status: 'active' } })
+  if (!user) {
+    // No revelar si el email existe o no
+    return { success: true }
+  }
+
+  const token = crypto.randomBytes(32).toString('hex')
+  const hash = crypto.createHash('sha256').update(token).digest('hex')
+  const expires = new Date(Date.now() + 60 * 60 * 1000) // 1h
+
+  await user.update({ resetTokenHash: hash, resetExpires: expires })
+
+  const origin = process.env.STORE_FRONTEND_URL || process.env.CORS_ORIGIN?.split(',')[1] || process.env.CORS_ORIGIN?.split(',')[0] || 'http://localhost:5173'
+  const adminOrigin = origin.replace(/^http:\/\//, '').includes('admin.') ? origin : origin.replace(/^https?:\/\//, 'https://admin.')
+  const link = `${adminOrigin}/reset-password?token=${token}`
+
+  await emailService.sendResetPasswordEmail(email, link)
+
+  return { success: true }
+}
+
+const resetPassword = async (token, newPassword) => {
+  const hash = crypto.createHash('sha256').update(token).digest('hex')
+  const user = await User.findOne({
+    where: { resetTokenHash: hash, resetExpires: { [require('sequelize').Op.gt]: new Date() } },
+  })
+  if (!user) {
+    throw Object.assign(new Error('Token inválido o expirado'), { status: 400 })
+  }
+  if (!newPassword || newPassword.length < 6) {
+    throw Object.assign(new Error('La contraseña debe tener al menos 6 caracteres'), { status: 400 })
+  }
+
+  user.password = newPassword
+  user.resetTokenHash = null
+  user.resetExpires = null
+  await user.save()
+
+  const token_jwt = generateToken(user)
+  return { success: true, token: token_jwt, user: { id: user.id, name: user.name, email: user.email, role: user.role } }
 }
 
 const me = async (userId) => {
@@ -106,4 +150,4 @@ const me = async (userId) => {
   return user
 }
 
-module.exports = { login, validateToken, activate, changePassword, me }
+module.exports = { login, validateToken, activate, changePassword, forgotPassword, resetPassword, me }
