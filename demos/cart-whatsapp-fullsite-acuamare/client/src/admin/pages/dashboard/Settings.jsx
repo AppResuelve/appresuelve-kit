@@ -136,44 +136,6 @@ export default function Settings() {
           </Card>
 
           <Card>
-            <h2 className="text-lg font-semibold text-zinc-100 mb-4">Marca</h2>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-zinc-400 mb-1.5">Color principal</label>
-                <div className="flex items-center gap-3">
-                  <input
-                    type="color"
-                    value={settings.primary_color}
-                    onChange={(e) => handleChange('primary_color', e.target.value)}
-                    className="w-10 h-10 rounded-lg border border-zinc-700 cursor-pointer bg-transparent"
-                  />
-                  <Input
-                    value={settings.primary_color}
-                    onChange={(e) => handleChange('primary_color', e.target.value)}
-                    className="flex-1"
-                  />
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-zinc-400 mb-1.5">Color secundario</label>
-                <div className="flex items-center gap-3">
-                  <input
-                    type="color"
-                    value={settings.secondary_color}
-                    onChange={(e) => handleChange('secondary_color', e.target.value)}
-                    className="w-10 h-10 rounded-lg border border-zinc-700 cursor-pointer bg-transparent"
-                  />
-                  <Input
-                    value={settings.secondary_color}
-                    onChange={(e) => handleChange('secondary_color', e.target.value)}
-                    className="flex-1"
-                  />
-                </div>
-              </div>
-            </div>
-          </Card>
-
-          <Card>
             <h2 className="text-lg font-semibold text-zinc-100 mb-4">Redes sociales</h2>
             <div className="space-y-4">
               <Input
