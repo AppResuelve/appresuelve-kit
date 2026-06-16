@@ -41,3 +41,19 @@ export function useChangeRequestsRemaining() {
 
   return { limit, used, remaining: limit - used, canRequest: used < limit, refetch: () => {} }
 }
+
+export function useModules() {
+  const [categories, setCategories] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    api.get('/admin/change-requests/modules')
+      .then(({ data }) => {
+        setCategories(Array.isArray(data) ? data : [])
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false))
+  }, [])
+
+  return { categories, loading }
+}

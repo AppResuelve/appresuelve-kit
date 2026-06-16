@@ -1,47 +1,11 @@
-import { useState } from 'react'
-import { Wrench, Send, Clock, CheckCircle, XCircle, Loader, AlertTriangle, Edit, ArrowLeft } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Wrench, Send, Clock, CheckCircle, XCircle, Loader, AlertTriangle, Edit, ArrowLeft, Search, FolderOpen } from 'lucide-react'
 import { Button } from '../../components/ui/Form'
 import { Card } from '../../components/ui/Card'
 import { Modal } from '../../components/ui/Modal'
 import { useAlert } from '../../components/ui/AlertContext'
-import { useChangeRequests, useChangeRequestsRemaining } from '../../hooks/useChangeRequests'
+import { useChangeRequests, useChangeRequestsRemaining, useModules } from '../../hooks/useChangeRequests'
 import api from '../../../api/admin'
-
-const MODULES = [
-  {
-    type: 'hero',
-    label: 'Hero',
-    icon: '🎯',
-    description: 'Cambiá el título, subtítulo, botón e imagen de fondo de la portada.',
-    fields: [
-      { key: 'headline', label: 'Título principal', type: 'text', placeholder: 'Las mejores piletas del país' },
-      { key: 'subheadline', label: 'Subtítulo', type: 'text', placeholder: 'Fabricación propia, envíos a todo el país' },
-      { key: 'ctaText', label: 'Texto del botón', type: 'text', placeholder: 'Ver productos' },
-      { key: 'backgroundImage', label: 'URL de imagen de fondo', type: 'text', placeholder: 'https://res.cloudinary.com/...' },
-    ],
-  },
-  {
-    type: 'hero_carousel',
-    label: 'Hero Carrusel',
-    icon: '🎠',
-    description: 'Agregá un carrusel de imágenes con texto en la portada.',
-    fields: [],
-  },
-  {
-    type: 'top_banner',
-    label: 'Banner Superior',
-    icon: '📢',
-    description: 'Un banner con texto y link en la parte superior del sitio.',
-    fields: [],
-  },
-  {
-    type: 'top_banner_countdown',
-    label: 'Banner con Cuenta Atrás',
-    icon: '⏰',
-    description: 'Banner con cuenta regresiva para ofertas por tiempo limitado.',
-    fields: [],
-  },
-]
 
 const STATUS_MAP = {
   pending: { label: 'Pendiente', icon: Clock, dot: 'bg-amber-500', text: 'text-amber-400' },
@@ -50,38 +14,187 @@ const STATUS_MAP = {
   cancelled: { label: 'Cancelado', icon: XCircle, dot: 'bg-zinc-500', text: 'text-zinc-400' },
 }
 
+const FIELD_COMPONENTS = {
+  text: ({ field, value, onChange }) => (
+    <input
+      type="text"
+      value={value || ''}
+      onChange={(e) => onChange(field.key, e.target.value)}
+      placeholder={field.placeholder}
+      className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-cyan-500 text-sm"
+    />
+  ),
+  textarea: ({ field, value, onChange }) => (
+    <textarea
+      value={value || ''}
+      onChange={(e) => onChange(field.key, e.target.value)}
+      placeholder={field.placeholder}
+      rows={3}
+      className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-cyan-500 text-sm resize-vertical"
+    />
+  ),
+  number: ({ field, value, onChange }) => (
+    <input
+      type="number"
+      value={value || ''}
+      onChange={(e) => onChange(field.key, e.target.value)}
+      placeholder={field.placeholder}
+      className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-cyan-500 text-sm"
+    />
+  ),
+  email: ({ field, value, onChange }) => (
+    <input
+      type="email"
+      value={value || ''}
+      onChange={(e) => onChange(field.key, e.target.value)}
+      placeholder={field.placeholder}
+      className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-cyan-500 text-sm"
+    />
+  ),
+  url: ({ field, value, onChange }) => (
+    <input
+      type="url"
+      value={value || ''}
+      onChange={(e) => onChange(field.key, e.target.value)}
+      placeholder={field.placeholder}
+      className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-cyan-500 text-sm"
+    />
+  ),
+  color: ({ field, value, onChange }) => (
+    <input
+      type="color"
+      value={value || '#000000'}
+      onChange={(e) => onChange(field.key, e.target.value)}
+      className="w-full h-10 bg-zinc-800 border border-zinc-700 rounded-lg cursor-pointer"
+    />
+  ),
+  date: ({ field, value, onChange }) => (
+    <input
+      type="date"
+      value={value || ''}
+      onChange={(e) => onChange(field.key, e.target.value)}
+      className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-zinc-200 focus:outline-none focus:border-cyan-500 text-sm"
+    />
+  ),
+  datetime: ({ field, value, onChange }) => (
+    <input
+      type="datetime-local"
+      value={value || ''}
+      onChange={(e) => onChange(field.key, e.target.value)}
+      className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-zinc-200 focus:outline-none focus:border-cyan-500 text-sm"
+    />
+  ),
+  boolean: ({ field, value, onChange }) => (
+    <label className="flex items-center gap-2 cursor-pointer">
+      <input
+        type="checkbox"
+        checked={!!value}
+        onChange={(e) => onChange(field.key, e.target.checked)}
+        className="w-4 h-4 rounded border-zinc-600 bg-zinc-800 text-cyan-500 focus:ring-cyan-500"
+      />
+      <span className="text-sm text-zinc-400">{field.placeholder || field.label}</span>
+    </label>
+  ),
+  select: ({ field, value, onChange }) => (
+    <select
+      value={value || ''}
+      onChange={(e) => onChange(field.key, e.target.value)}
+      className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-zinc-200 focus:outline-none focus:border-cyan-500 text-sm"
+    >
+      <option value="">Seleccionar...</option>
+      {(field.options || []).map((opt) => (
+        <option key={opt.value} value={opt.value}>{opt.label}</option>
+      ))}
+    </select>
+  ),
+}
+
+function DynamicField({ field, value, onChange }) {
+  const Component = FIELD_COMPONENTS[field.type] || FIELD_COMPONENTS.text
+  return (
+    <div>
+      <label className="block text-sm font-medium text-zinc-400 mb-1.5">
+        {field.label}
+        {field.required && <span className="text-red-400 ml-0.5">*</span>}
+      </label>
+      <Component field={field} value={value} onChange={onChange} />
+      {field.helpText && (
+        <p className="text-xs text-zinc-600 mt-1">{field.helpText}</p>
+      )}
+    </div>
+  )
+}
+
 export default function ChangeRequests() {
   const Alert = useAlert()
   const { requests, totalPages, page, loading, refetch } = useChangeRequests()
   const { limit, used, remaining, canRequest } = useChangeRequestsRemaining()
-  const [selectedModule, setSelectedModule] = useState(null)
+  const { categories, loading: modulesLoading } = useModules()
+  const [selectedComponent, setSelectedComponent] = useState(null)
+  const [selectedCategory, setSelectedCategory] = useState(null)
   const [editingRequest, setEditingRequest] = useState(null)
   const [formData, setFormData] = useState({})
   const [submitting, setSubmitting] = useState(false)
   const [showHistory, setShowHistory] = useState(false)
+  const [search, setSearch] = useState('')
 
-  const handleOpenModule = (mod) => {
+  const filteredCategories = search.trim()
+    ? categories
+        .map((cat) => {
+          const catMatch = cat.name.toLowerCase().includes(search.toLowerCase())
+          const matchingComponents = cat.components.filter((comp) =>
+            comp.name.toLowerCase().includes(search.toLowerCase()) ||
+            (comp.description || '').toLowerCase().includes(search.toLowerCase())
+          )
+          if (catMatch || matchingComponents.length > 0) {
+            return { ...cat, components: catMatch ? cat.components : matchingComponents }
+          }
+          return null
+        })
+        .filter(Boolean)
+    : categories
+
+  const handleOpenComponent = (category, component) => {
     setEditingRequest(null)
-    setSelectedModule(mod)
+    setSelectedCategory(category)
+    setSelectedComponent(component)
     setFormData({})
   }
 
   const handleEditRequest = (req) => {
-    const mod = MODULES.find((m) => m.type === req.type)
-    if (!mod) return
-    setSelectedModule(mod)
+    let foundCategory = null
+    let foundComponent = null
+    for (const cat of categories) {
+      for (const comp of cat.components) {
+        if (comp.id === req.componentId) {
+          foundCategory = cat
+          foundComponent = comp
+          break
+        }
+      }
+      if (foundComponent) break
+    }
+    if (!foundComponent) return
+
+    setSelectedCategory(foundCategory)
+    setSelectedComponent(foundComponent)
     setEditingRequest(req)
-    setFormData(req.data || {})
+    setFormData(req.values || {})
+  }
+
+  const handleFieldChange = (key, value) => {
+    setFormData((prev) => ({ ...prev, [key]: value }))
   }
 
   const handleSubmit = async () => {
-    if (!selectedModule) return
+    if (!selectedComponent || !selectedCategory) return
 
-    const hasFields = selectedModule.fields.length > 0
-    if (hasFields) {
-      const empty = selectedModule.fields.some((f) => !formData[f.key]?.trim())
+    const fields = selectedComponent.fields || []
+    const requiredFields = fields.filter((f) => f.required)
+    if (requiredFields.length > 0) {
+      const empty = requiredFields.some((f) => !formData[f.key] || (typeof formData[f.key] === 'string' && !formData[f.key].trim()))
       if (empty) {
-        Alert.fire({ message: 'Completá todos los campos', type: 'warning' })
+        Alert.fire({ message: 'Completá todos los campos requeridos', type: 'warning' })
         return
       }
     }
@@ -90,15 +203,20 @@ export default function ChangeRequests() {
     try {
       let response
       if (editingRequest) {
-        response = await api.put(`/admin/change-requests/${editingRequest.id}`, { data: formData })
+        response = await api.put(`/admin/change-requests/${editingRequest.id}`, { values: formData })
       } else {
-        response = await api.post('/admin/change-requests', { type: selectedModule.type, data: formData })
+        response = await api.post('/admin/change-requests', {
+          componentId: selectedComponent.id,
+          categoryId: selectedCategory.id,
+          values: formData,
+        })
       }
 
       const { whatsappLink } = response.data
 
       Alert.fire({ message: editingRequest ? 'Solicitud actualizada' : 'Solicitud enviada. Te contactaremos pronto.', type: 'success' })
-      setSelectedModule(null)
+      setSelectedComponent(null)
+      setSelectedCategory(null)
       setEditingRequest(null)
       refetch(1)
 
@@ -117,6 +235,15 @@ export default function ChangeRequests() {
     } finally {
       setSubmitting(false)
     }
+  }
+
+  const getComponentInfo = (compId) => {
+    for (const cat of categories) {
+      for (const comp of cat.components) {
+        if (comp.id === compId) return { category: cat, component: comp }
+      }
+    }
+    return null
   }
 
   return (
@@ -155,32 +282,115 @@ export default function ChangeRequests() {
         </Card>
       )}
 
-      {/* Module grid */}
+      {/* Dynamic modules from platform */}
       {!showHistory && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-          {MODULES.map((mod) => (
-            <button
-              key={mod.type}
-              onClick={() => canRequest && mod.fields.length > 0 && handleOpenModule(mod)}
-              disabled={!canRequest || mod.fields.length === 0}
-              className={`text-left p-5 rounded-xl border transition-colors
-                ${canRequest && mod.fields.length > 0
-                  ? 'bg-zinc-900 border-zinc-800 hover:border-cyan-500 cursor-pointer'
-                  : 'bg-zinc-900/50 border-zinc-800/50 opacity-50 cursor-not-allowed'
-                }`}
-            >
-              <div className="flex items-start gap-3">
-                <span className="text-2xl">{mod.icon}</span>
-                <div>
-                  <p className="font-medium text-zinc-200">{mod.label}</p>
-                  <p className="text-sm text-zinc-500 mt-0.5">{mod.description}</p>
-                  {mod.fields.length === 0 && (
-                    <p className="text-xs text-zinc-600 mt-1">Próximamente</p>
+        <div className="mb-8">
+          {/* Search */}
+          <div className="relative mb-6">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Buscar módulo o categoría..."
+              className="w-full max-w-sm pl-10 pr-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-cyan-500 text-sm"
+            />
+          </div>
+
+          {modulesLoading ? (
+            <div className="flex items-center justify-center py-12">
+              <Loader className="w-6 h-6 animate-spin text-cyan-400" />
+            </div>
+          ) : filteredCategories.length === 0 ? (
+            <Card>
+              <div className="text-center py-12">
+                {search.trim() ? (
+                  <>
+                    <Search className="w-10 h-10 text-zinc-600 mx-auto mb-3" />
+                    <p className="text-zinc-500">No se encontraron resultados para "{search}"</p>
+                  </>
+                ) : (
+                  <>
+                    <FolderOpen className="w-10 h-10 text-zinc-600 mx-auto mb-3" />
+                    <p className="text-zinc-500">No hay módulos disponibles</p>
+                  </>
+                )}
+              </div>
+            </Card>
+          ) : (
+            filteredCategories.map((cat, catIndex) => (
+              <div key={cat.id}>
+                {catIndex > 0 && (
+                  <hr className="border-zinc-800/50 my-6" />
+                )}
+
+                <div className="flex items-center gap-2 text-lg font-semibold text-zinc-200 mb-3">
+                  {cat.icon && <span>{cat.icon}</span>}
+                  {cat.name}
+                  {!cat.free && cat.price != null && (
+                    <span className="text-xs text-zinc-500 font-normal ml-2">desde ${cat.price}</span>
                   )}
                 </div>
+
+                {cat.components.length === 0 ? (
+                  <p className="text-sm text-zinc-600 text-center py-6 border border-dashed border-zinc-800 rounded-lg ml-0">
+                    No tiene componentes por ahora
+                  </p>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                    {cat.components.map((comp) => {
+                      const hasFields = (comp.fields || []).length > 0
+                      const isPaid = comp.paidOverride
+                      return (
+                        <button
+                          key={comp.id}
+                          onClick={() => canRequest && hasFields && handleOpenComponent(cat, comp)}
+                          disabled={!canRequest || !hasFields}
+                          className={`text-left p-4 rounded-xl border transition-colors flex items-center gap-4
+                            ${canRequest && hasFields
+                              ? 'bg-zinc-900 border-zinc-800 hover:border-cyan-500 cursor-pointer'
+                              : 'bg-zinc-900/50 border-zinc-800/50 opacity-50 cursor-not-allowed'
+                            }`}
+                        >
+                          <div className="flex items-start gap-3 flex-1 min-w-0">
+                            <span className="text-xl shrink-0">{comp.icon || '🛠'}</span>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2">
+                                <p className="font-medium text-zinc-200">{comp.name}</p>
+                                {isPaid && comp.price != null && (
+                                  <span className="text-xs text-amber-400 bg-amber-400/10 px-1.5 py-0.5 rounded">
+                                    ${comp.price}
+                                  </span>
+                                )}
+                              </div>
+                              {comp.description && (
+                                <p className="text-sm text-zinc-500 mt-0.5">{comp.description}</p>
+                              )}
+                              {comp.estimatedDays && (
+                                <p className="text-xs text-zinc-600 mt-1">
+                                  ~{comp.estimatedDays} día{comp.estimatedDays !== 1 ? 's' : ''}
+                                </p>
+                              )}
+                              {!hasFields && (
+                                <p className="text-xs text-zinc-600 mt-1">Próximamente</p>
+                              )}
+                            </div>
+                          </div>
+                          {comp.thumbnail && (
+                            <img
+                              src={comp.thumbnail}
+                              alt={comp.name}
+                              className="w-[100px] h-[100px] rounded-lg object-cover shrink-0 border border-zinc-800"
+                            />
+                          )}
+                        </button>
+                      )
+                    })}
+                  </div>
+                )}
               </div>
-            </button>
-          ))}
+            ))
+          )}
         </div>
       )}
 
@@ -203,16 +413,18 @@ export default function ChangeRequests() {
               <div className="divide-y divide-zinc-800">
                 {requests.map((req) => {
                   const status = STATUS_MAP[req.status] || STATUS_MAP.pending
-                  const mod = MODULES.find((m) => m.type === req.type)
+                  const info = getComponentInfo(req.componentId)
                   const StatusIcon = status.icon
                   const isPending = req.status === 'pending'
                   return (
                     <div key={req.id} className="flex items-center gap-4 px-4 py-3 group">
-                      <span className="text-xl shrink-0">{mod?.icon || '🛠'}</span>
+                      <span className="text-xl shrink-0">{info?.component?.icon || '🛠'}</span>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-zinc-200">{mod?.label || req.type}</p>
+                        <p className="text-sm font-medium text-zinc-200">
+                          {info?.component?.name || `Componente ID ${req.componentId}`}
+                        </p>
                         <p className="text-xs text-zinc-500 truncate">
-                          {Object.values(req.data || {}).slice(0, 2).join(' — ') || 'Sin datos'}
+                          {Object.values(req.values || {}).slice(0, 2).join(' — ') || 'Sin datos'}
                         </p>
                       </div>
                       <div className="flex items-center gap-1.5 shrink-0">
@@ -238,7 +450,6 @@ export default function ChangeRequests() {
             </Card>
           )}
 
-          {/* History pagination */}
           {totalPages > 1 && (
             <div className="flex items-center justify-center gap-2 mt-4">
               <Button variant="secondary" size="sm" disabled={page === 1} onClick={() => refetch(page - 1)}>
@@ -254,28 +465,44 @@ export default function ChangeRequests() {
       )}
 
       {/* Form modal */}
-      <Modal open={!!selectedModule} onClose={() => { setSelectedModule(null); setEditingRequest(null) }} title={editingRequest ? `Editar: ${selectedModule?.label}` : `Solicitar cambio: ${selectedModule?.label || ''}`}>
-        {selectedModule && (
+      <Modal
+        open={!!selectedComponent}
+        onClose={() => { setSelectedComponent(null); setSelectedCategory(null); setEditingRequest(null) }}
+        title={editingRequest ? `Editar: ${selectedComponent?.name}` : `Solicitar: ${selectedComponent?.name || ''}`}
+      >
+        {selectedComponent && (
           <div className="space-y-4">
-            {selectedModule.fields.map((field) => (
-              <div key={field.key}>
-                <label className="block text-sm font-medium text-zinc-400 mb-1.5">{field.label}</label>
-                <input
-                  type={field.type}
-                  value={formData[field.key] || ''}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, [field.key]: e.target.value }))}
-                  placeholder={field.placeholder}
-                  className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-cyan-500 text-sm"
-                />
-              </div>
+            {selectedCategory && (
+              <p className="text-xs text-zinc-500">
+                {selectedCategory.icon} {selectedCategory.name} &rsaquo; {selectedComponent.icon} {selectedComponent.name}
+              </p>
+            )}
+
+            {(selectedComponent.fields || []).map((field) => (
+              <DynamicField
+                key={field.key}
+                field={field}
+                value={formData[field.key]}
+                onChange={handleFieldChange}
+              />
             ))}
+
+            {(selectedComponent.paidOverride && selectedComponent.price != null) && (
+              <div className="bg-amber-400/10 border border-amber-400/20 rounded-lg p-3">
+                <p className="text-sm text-amber-400">
+                  Este cambio tiene un costo de <strong>${selectedComponent.price}</strong>
+                </p>
+              </div>
+            )}
 
             <p className="text-xs text-zinc-600">
               Para imágenes, subilas a la Galería y pegá la URL acá.
             </p>
 
             <div className="flex gap-3 justify-end pt-2">
-              <Button type="button" variant="secondary" onClick={() => { setSelectedModule(null); setEditingRequest(null) }}>Cancelar</Button>
+              <Button type="button" variant="secondary" onClick={() => { setSelectedComponent(null); setSelectedCategory(null); setEditingRequest(null) }}>
+                Cancelar
+              </Button>
               <Button type="button" onClick={handleSubmit} disabled={submitting}>
                 <Send className="w-4 h-4" />
                 {submitting ? 'Enviando...' : editingRequest ? 'Actualizar' : 'Enviar solicitud'}
