@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import api from '../../api/admin'
+import api, { resetLogoutFlag } from '../../api/admin'
 
 const AuthContext = createContext(null)
 
@@ -21,7 +21,19 @@ export function AuthProvider({ children }) {
     setLoading(false)
   }, [])
 
+  useEffect(() => {
+    const handleLogout = () => {
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
+      setUser(null)
+    }
+
+    window.addEventListener('auth:logout', handleLogout)
+    return () => window.removeEventListener('auth:logout', handleLogout)
+  }, [])
+
   const login = async (email, password) => {
+    resetLogoutFlag()
     const { data } = await api.post('/auth/login', { email, password })
     localStorage.setItem('token', data.token)
     localStorage.setItem('user', JSON.stringify(data.user))
@@ -30,6 +42,7 @@ export function AuthProvider({ children }) {
   }
 
   const logout = () => {
+    resetLogoutFlag()
     localStorage.removeItem('token')
     localStorage.removeItem('user')
     setUser(null)

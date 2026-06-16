@@ -150,4 +150,4 @@ const me = async (userId) => {
   return user
 }
 
-module.exports = { login, validateToken, activate, changePassword, forgotPassword, resetPassword, me }
+module.exports = { generateToken, login, validateToken, activate, changePassword, forgotPassword, resetPassword, me }

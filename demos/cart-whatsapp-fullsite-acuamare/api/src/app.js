@@ -23,6 +23,7 @@ app.use(cors({
       }
     : '*',
   credentials: true,
+  exposedHeaders: ['X-New-Token'],
 }))
 
 app.use(morgan('dev'))
