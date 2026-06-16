@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "node --watch src/index.js",
-    "start": "node src/index.js",
+    "start": "npx sequelize-cli db:migrate && node src/index.js",
     "seed": "node src/seed/seed.js",
     "db:migrate": "npx sequelize-cli db:migrate"
   },
