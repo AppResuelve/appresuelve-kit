@@ -120,7 +120,10 @@ export default function Sidebar({ open, onClose, logoUrl }) {
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 py-4 px-3 space-y-0.5 overflow-y-auto">
+      <nav className="flex-1 px-3 space-y-0.5 overflow-y-auto">
+        <p className="px-3 pt-2 text-[12px] font-semibold text-zinc-600 uppercase tracking-wider">
+          General
+        </p>
         {ADMIN_ITEMS.map(({ to, icon: Icon, label }) => (
           <NavLink
             key={to}
@@ -128,7 +131,7 @@ export default function Sidebar({ open, onClose, logoUrl }) {
             end={to === "/dashboard"}
             onClick={onClose}
             className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+              `flex items-center gap-3 px-3 py-2.5 rounded-lg text-md font-medium transition-colors ${
                 isActive
                   ? "bg-cyan-500/10 text-cyan-400"
                   : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800"
@@ -140,16 +143,16 @@ export default function Sidebar({ open, onClose, logoUrl }) {
           </NavLink>
         ))}
 
-        <div className="my-5 border-t border-zinc-800/50" />
+        <div className="border-t border-zinc-800/50" />
 
-        <p className="px-3 text-[10px] font-semibold text-zinc-600 uppercase tracking-wider mb-2">
+        <p className="px-3 pt-2 text-[12px] font-semibold text-zinc-600 uppercase tracking-wider">
           Sitio público
         </p>
         <NavLink
           to={STORE_ITEM.to}
           onClick={onClose}
           className={({ isActive }) =>
-            `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+            `flex items-center gap-3 px-3 py-2.5 rounded-lg text-md font-medium transition-colors ${
               isActive
                 ? "bg-cyan-500/10 text-cyan-400"
                 : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800"
@@ -160,16 +163,16 @@ export default function Sidebar({ open, onClose, logoUrl }) {
           {STORE_ITEM.label}
         </NavLink>
 
-        <div className="my-5 border-t border-zinc-800/50" />
+        <div className="border-t border-zinc-800/50" />
 
-        <p className="px-3 text-[10px] font-semibold text-zinc-600 uppercase tracking-wider mb-2">
+        <p className="px-3 pt-2 text-[12px] font-semibold text-zinc-600 uppercase tracking-wider">
           Desarrollador
         </p>
         <NavLink
           to={DEV_ITEM.to}
           onClick={onClose}
           className={({ isActive }) =>
-            `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+            `flex items-center gap-3 px-3 py-2.5 rounded-lg text-md font-medium transition-colors ${
               isActive
                 ? "bg-cyan-500/10 text-cyan-400"
                 : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800"
@@ -182,7 +185,7 @@ export default function Sidebar({ open, onClose, logoUrl }) {
       </nav>
 
       {/* User + dropdown */}
-      <div className="border-t border-zinc-800 p-4 shrink-0">
+      <div className="border-t border-zinc-800 px-4 pt-4 pb-8 shrink-0">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full bg-zinc-700 flex items-center justify-center text-xs font-medium text-zinc-300">
             {user?.name?.[0]?.toUpperCase() || "A"}
@@ -196,10 +199,10 @@ export default function Sidebar({ open, onClose, logoUrl }) {
           <div className="relative">
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-200 hover:bg-zinc-700 transition-colors"
+              className="p-2.5 rounded-lg text-zinc-400 hover:text-zinc-200 hover:bg-zinc-700 transition-colors"
               title="Menú"
             >
-              <MoreHorizontal className="w-4 h-4" />
+              <MoreHorizontal className="w-5 h-5" />
             </button>
             {menuOpen && (
               <>
@@ -213,14 +216,14 @@ export default function Sidebar({ open, onClose, logoUrl }) {
                       setMenuOpen(false);
                       setPwOpen(true);
                     }}
-                    className="w-full flex items-center gap-2 px-2 py-2 rounded-md text-sm text-zinc-300 hover:bg-zinc-700 transition-colors"
+                    className="w-full flex items-center gap-2 px-2 py-2 rounded-md text-md text-zinc-300 hover:bg-zinc-700 transition-colors"
                   >
                     <Key className="w-4 h-4" />
                     Cambiar contraseña
                   </button>
                   <button
                     onClick={logout}
-                    className="w-full flex items-center gap-2 px-2 py-2 rounded-md text-sm text-zinc-300 hover:bg-zinc-700 transition-colors"
+                    className="w-full flex items-center gap-2 px-2 py-2 rounded-md text-md text-zinc-300 hover:bg-zinc-700 transition-colors"
                   >
                     <LogOut className="w-4 h-4" />
                     Cerrar sesión
@@ -247,7 +250,7 @@ export default function Sidebar({ open, onClose, logoUrl }) {
       {/* Sidebar */}
       <aside
         className={`
-          fixed left-0 top-0 h-full w-60 bg-zinc-900 border-r border-zinc-800 flex flex-col z-50
+          fixed left-0 top-0 h-full w-64 bg-zinc-900 border-r border-zinc-800 flex flex-col z-50
           transition-transform duration-300
           lg:translate-x-0
           ${open ? "translate-x-0" : "-translate-x-full"}
@@ -292,7 +295,11 @@ export default function Sidebar({ open, onClose, logoUrl }) {
                 onClick={() => setShowPw(!showPw)}
                 className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-zinc-500 hover:text-zinc-300 transition-colors"
               >
-                {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                {showPw ? (
+                  <EyeOff className="w-4 h-4" />
+                ) : (
+                  <Eye className="w-4 h-4" />
+                )}
               </button>
             </div>
           </div>

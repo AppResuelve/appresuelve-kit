@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ArrowLeft, Loader, Image } from 'lucide-react'
 import { Button, Input, Textarea, Select } from '../../components/ui/Form'
+import { Checkbox } from '../../components/ui/Checkbox'
 import ImageUpload from '../../components/ImageUpload'
 import GalleryPicker from '../../components/GalleryPicker'
 import { useProduct } from '../../hooks/useProducts'
@@ -134,7 +135,7 @@ export default function ProductForm() {
         <span className="text-sm">Volver a productos</span>
       </button>
 
-      <form onSubmit={handleSubmit} className="max-w-2xl mx-auto space-y-6">
+      <form onSubmit={handleSubmit} className="max-w-2xl mx-auto space-y-6 pb-24 lg:pb-0">
         <h1 className="text-2xl font-bold text-zinc-100">
           {isEditing ? 'Editar Producto' : 'Nuevo Producto'}
         </h1>
@@ -186,7 +187,7 @@ export default function ProductForm() {
           placeholder="Descripción del producto que verán tus clientes"
         />
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-3 items-end gap-4">
           <Input
             label="Precio de venta"
             type="number"
@@ -209,8 +210,7 @@ export default function ProductForm() {
 
         <div className="grid grid-cols-2 gap-4">
           <label className="flex items-center gap-2 text-sm text-zinc-400 cursor-pointer">
-            <input
-              type="checkbox"
+            <Checkbox
               checked={form.wholesalePrice != null || form.wholesaleMinQty != null}
               onChange={(e) => {
                 if (!e.target.checked) {
@@ -221,7 +221,6 @@ export default function ProductForm() {
                   handleChange('wholesaleMinQty', '')
                 }
               }}
-              className="rounded border-zinc-600 bg-zinc-800 text-cyan-500 focus:ring-cyan-500"
             />
             ¿Tiene precio mayorista?
           </label>
@@ -274,12 +273,12 @@ export default function ProductForm() {
           placeholder="destacado, nuevo, oferta"
         />
 
-        <div className="flex gap-3 pt-2">
-          <Button type="submit" disabled={saving}>
-            {saving ? 'Guardando...' : isEditing ? 'Guardar cambios' : 'Crear producto'}
-          </Button>
+        <div className="fixed bottom-0 left-0 right-0 lg:static flex gap-3 justify-end px-4 pb-8 pt-4 lg:p-0 lg:pt-2 bg-zinc-950/95 backdrop-blur-md border-t border-zinc-800 lg:border-0 lg:bg-transparent z-20">
           <Button type="button" variant="secondary" onClick={() => navigate('/dashboard/products')}>
             Cancelar
+          </Button>
+          <Button type="submit" disabled={saving}>
+            {saving ? 'Guardando...' : isEditing ? 'Guardar cambios' : 'Crear producto'}
           </Button>
         </div>
       </form>

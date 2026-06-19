@@ -182,9 +182,9 @@ export default function Categories() {
         <form onSubmit={handleSave} className="space-y-4">
           <Input label="Nombre" value={name} onChange={(e) => handleNameChange(e.target.value)} required />
           <Input label="Slug" value={slug} onChange={(e) => handleSlugChange(e.target.value)} placeholder="nombre-de-categoria" required />
-          <div className="flex gap-3 pt-2">
-            <Button type="submit">{editing ? 'Guardar' : 'Crear'}</Button>
+          <div className="flex gap-3 pt-2 justify-end">
             <Button type="button" variant="secondary" onClick={() => setModalOpen(false)}>Cancelar</Button>
+            <Button type="submit">{editing ? 'Guardar cambios' : 'Crear categoría'}</Button>
           </div>
         </form>
       </Modal>

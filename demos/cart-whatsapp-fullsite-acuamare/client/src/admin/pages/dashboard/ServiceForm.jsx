@@ -84,7 +84,7 @@ export default function ServiceForm() {
         <ArrowLeft className="w-4 h-4" /><span className="text-sm">Volver a servicios</span>
       </button>
 
-      <form onSubmit={handleSubmit} className="max-w-2xl mx-auto space-y-6">
+      <form onSubmit={handleSubmit} className="max-w-2xl mx-auto space-y-6 pb-24 lg:pb-0">
         <h1 className="text-2xl font-bold text-zinc-100">{isEditing ? 'Editar Servicio' : 'Nuevo Servicio'}</h1>
 
         {error && <div className="px-4 py-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">{error}</div>}
@@ -105,9 +105,9 @@ export default function ServiceForm() {
             options={[{ value: 'active', label: 'Activo' }, { value: 'draft', label: 'Borrador' }]} />
         </div>
 
-        <div className="flex gap-3 pt-2">
-          <Button type="submit" disabled={saving}>{saving ? 'Guardando...' : isEditing ? 'Guardar cambios' : 'Crear servicio'}</Button>
+        <div className="fixed bottom-0 left-0 right-0 lg:static flex gap-3 justify-end px-4 pb-8 pt-4 lg:p-0 lg:pt-2 bg-zinc-950/95 backdrop-blur-md border-t border-zinc-800 lg:border-0 lg:bg-transparent z-20">
           <Button type="button" variant="secondary" onClick={() => navigate('/dashboard/services')}>Cancelar</Button>
+          <Button type="submit" disabled={saving}>{saving ? 'Guardando...' : isEditing ? 'Guardar cambios' : 'Crear servicio'}</Button>
         </div>
       </form>
     </div>

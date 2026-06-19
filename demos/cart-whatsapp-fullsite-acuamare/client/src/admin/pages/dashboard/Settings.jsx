@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Save, Loader } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import { Loader } from 'lucide-react'
 import { Button, Input, Textarea } from '../../components/ui/Form'
 import { Card } from '../../components/ui/Card'
 import ImageUpload from '../../components/ImageUpload'
@@ -23,6 +24,7 @@ const DEFAULT_SETTINGS = {
 }
 
 export default function Settings() {
+  const navigate = useNavigate()
   const [settings, setSettings] = useState(DEFAULT_SETTINGS)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -65,7 +67,7 @@ export default function Settings() {
     <div className="max-w-7xl mx-auto">
       <h1 className="text-2xl font-bold text-zinc-100 mb-6">Configuración del negocio</h1>
 
-      <form onSubmit={handleSave}>
+      <form onSubmit={handleSave} className="pb-24 lg:pb-0">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <Card>
             <h2 className="text-lg font-semibold text-zinc-100 mb-4">Información general</h2>
@@ -154,10 +156,10 @@ export default function Settings() {
           </Card>
         </div>
 
-        <div className="flex items-center gap-4 mt-6">
+        <div className="fixed bottom-0 left-0 right-0 lg:static flex gap-3 justify-end items-center px-4 pb-8 pt-4 lg:p-0 lg:mt-6 bg-zinc-950/95 backdrop-blur-md border-t border-zinc-800 lg:border-0 lg:bg-transparent z-20">
+          <Button type="button" variant="secondary" onClick={() => navigate('/dashboard')}>Cancelar</Button>
           <Button type="submit" disabled={saving}>
-            <Save className="w-4 h-4" />
-            {saving ? 'Guardando...' : 'Guardar configuración'}
+            {saving ? 'Guardando...' : 'Guardar cambios'}
           </Button>
           {message && (
             <span className={`text-sm ${message.includes('Error') ? 'text-red-400' : 'text-emerald-400'}`}>

@@ -67,7 +67,7 @@ export default function Layout() {
         <Menu className="w-5 h-5" />
       </button>
 
-      <main className="ml-0 lg:ml-60 p-6 pt-16 lg:pt-6 min-h-screen">
+      <main className="ml-0 lg:ml-64 p-2 pt-16 lg:p-6 lg:pt-6 min-h-screen">
         <Outlet />
       </main>
     </div>

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Eye, ExternalLink, Globe, AlertTriangle, Pencil } from 'lucide-react'
+import { ExternalLink, Globe, AlertTriangle, Pencil } from 'lucide-react'
 import api from '../../../api/admin'
 
 const STORE_STATUS = [
@@ -80,7 +80,6 @@ export default function Store() {
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 transition-colors text-sm font-medium"
         >
-          <Eye className="w-4 h-4" />
           Ver tienda
           <ExternalLink className="w-3 h-3" />
         </a>
@@ -108,22 +107,21 @@ export default function Store() {
       </div>
 
       {/* Status controls */}
-      <div className="flex items-center gap-4 p-4 rounded-xl border bg-zinc-900/50 border-zinc-800">
-        <div className="flex items-center gap-2">
-          <StatusIcon className="w-4 h-4 text-zinc-400" />
+      <div className="flex flex-col gap-2 p-4 rounded-xl border bg-zinc-900/50 border-zinc-800">
+        <div className="flex items-center gap-3">
           <span className="text-sm text-zinc-400">Estado de la tienda:</span>
+          <select
+            value={status}
+            onChange={(e) => handleStatusChange(e.target.value)}
+            disabled={saving}
+            className="appearance-none bg-zinc-800 border border-zinc-700 rounded-lg pl-3 pr-10 py-2 text-sm font-medium text-zinc-200 focus:outline-none focus:border-cyan-500 transition-colors cursor-pointer disabled:opacity-50"
+          >
+            {STORE_STATUS.map(({ value, label }) => (
+              <option key={value} value={value}>{label}</option>
+            ))}
+          </select>
+          <span className={`w-2 h-2 rounded-full ${current.dot}`} />
         </div>
-        <select
-          value={status}
-          onChange={(e) => handleStatusChange(e.target.value)}
-          disabled={saving}
-          className="appearance-none bg-zinc-800 border border-zinc-700 rounded-lg pl-3 pr-10 py-2 text-sm font-medium text-zinc-200 focus:outline-none focus:border-cyan-500 transition-colors cursor-pointer disabled:opacity-50"
-        >
-          {STORE_STATUS.map(({ value, label }) => (
-            <option key={value} value={value}>{label}</option>
-          ))}
-        </select>
-        <span className={`w-2 h-2 rounded-full ${current.dot}`} />
         <span className="text-sm text-zinc-500">
           {status === 'active' && 'Tu tienda está visible para todo el mundo'}
           {status === 'draft' && 'Tu tienda está oculta. Ideal para hacer cambios.'}

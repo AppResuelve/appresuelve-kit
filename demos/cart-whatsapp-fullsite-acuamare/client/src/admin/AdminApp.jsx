@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import { AlertProvider } from './components/ui/AlertContext'
+import { ScrollToTop } from '../store/ScrollToTop'
 import ProtectedRoute from './components/ProtectedRoute'
 import Layout from './components/Layout'
 import Login from './pages/Login'
@@ -21,6 +22,7 @@ import ResetPassword from './pages/ResetPassword'
 export default function AdminApp() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <AuthProvider>
         <AlertProvider>
           <Routes>

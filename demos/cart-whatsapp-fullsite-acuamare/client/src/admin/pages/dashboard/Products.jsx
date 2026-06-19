@@ -22,6 +22,7 @@ export default function Products() {
   const [selected, setSelected] = useState([])
   const [bulkProcessing, setBulkProcessing] = useState(false)
   const [moreOpen, setMoreOpen] = useState(false)
+  const [newMenuOpen, setNewMenuOpen] = useState(false)
 
   const params = { page, limit: 20, search, ...(categoryId && { categoryId }) }
   const { products, total, totalPages, loading, refetch, updateProduct } = useProducts(params)
@@ -174,17 +175,35 @@ export default function Products() {
           <p className="text-sm text-zinc-500">{total} productos</p>
         </div>
         <div className="flex items-center gap-3">
-          <Button variant="secondary" onClick={() => setBulkOpen(true)}>
-            <FileSpreadsheet className="w-4 h-4" />
-            Creación masiva
-          </Button>
-          <Link to="/dashboard/products/new">
-            <Button>
+          <div className="relative">
+            <Button onClick={() => setNewMenuOpen(!newMenuOpen)}>
               <Plus className="w-4 h-4" />
               <span className="hidden sm:inline">Nuevo Producto</span>
               <span className="sm:hidden">Nuevo</span>
             </Button>
-          </Link>
+            {newMenuOpen && (
+              <>
+                <div className="fixed inset-0 z-10" onClick={() => setNewMenuOpen(false)} />
+                <div className="absolute right-0 top-full mt-2 w-52 bg-zinc-800 border border-zinc-700 rounded-lg shadow-xl z-20 p-1">
+                  <Link
+                    to="/dashboard/products/new"
+                    onClick={() => setNewMenuOpen(false)}
+                    className="w-full flex items-center gap-2 px-2 py-2 rounded-md text-sm text-zinc-300 hover:bg-zinc-700 transition-colors"
+                  >
+                    <Plus className="w-4 h-4" />
+                    Creación única
+                  </Link>
+                  <button
+                    onClick={() => { setNewMenuOpen(false); setBulkOpen(true) }}
+                    className="w-full flex items-center gap-2 px-2 py-2 rounded-md text-sm text-zinc-300 hover:bg-zinc-700 transition-colors"
+                  >
+                    <FileSpreadsheet className="w-4 h-4" />
+                    Creación masiva
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </div>
 
