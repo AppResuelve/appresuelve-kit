@@ -3,7 +3,7 @@ import { Upload, X, Loader } from 'lucide-react'
 import { uploadImage } from '../../api/upload'
 import { useAlert } from './ui/AlertContext'
 
-export default function ImageUpload({ images = [], onChange, max = 4, label, folder = 'productos' }) {
+export default function ImageUpload({ images = [], onChange, max = 4, cols = 4, label, folder = 'productos' }) {
   const [uploading, setUploading] = useState(false)
   const fileInputRef = useRef(null)
   const Alert = useAlert()
@@ -51,9 +51,9 @@ export default function ImageUpload({ images = [], onChange, max = 4, label, fol
       </label>
       <p className="text-xs text-zinc-500 -mt-1 mb-3">jpg, png, webp, gif — Máx. 10MB</p>
 
-      <div className="grid gap-3 mb-3 grid-cols-4">
+      <div className={`grid gap-2 lg:gap-3 mb-3 grid-cols-${cols}`}>
         {images.map((url, i) => (
-          <div key={i} className="relative group aspect-square rounded-lg overflow-hidden bg-zinc-800 border border-zinc-700 min-w-[100px]">
+          <div key={i} className="relative group aspect-square rounded-lg overflow-hidden bg-zinc-800 border border-zinc-700">
             <img src={url} alt="" className="w-full h-full object-cover" />
             <button
               type="button"
@@ -75,7 +75,7 @@ export default function ImageUpload({ images = [], onChange, max = 4, label, fol
             type="button"
             onClick={() => fileInputRef.current?.click()}
             disabled={uploading}
-            className="aspect-square rounded-lg border-2 border-dashed border-zinc-700 hover:border-cyan-500 flex flex-col items-center justify-center gap-1 text-zinc-500 hover:text-cyan-400 transition-colors bg-zinc-800/50 min-w-[100px]"
+            className="aspect-square rounded-lg border-2 border-dashed border-zinc-700 hover:border-cyan-500 flex flex-col items-center justify-center gap-1 text-zinc-500 hover:text-cyan-400 transition-colors bg-zinc-800/50"
           >
             {uploading ? (
               <Loader className="w-5 h-5 animate-spin" />

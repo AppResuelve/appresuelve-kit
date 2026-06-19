@@ -94,6 +94,7 @@ export default function Settings() {
                     images={settings.logo_url ? [settings.logo_url] : []}
                     onChange={(imgs) => handleChange('logo_url', imgs[0] || '')}
                     max={1}
+                    cols={2}
                     folder="branding"
                   />
                   <ImageUpload
@@ -101,6 +102,7 @@ export default function Settings() {
                     images={settings.favicon_url ? [settings.favicon_url] : []}
                     onChange={(imgs) => handleChange('favicon_url', imgs[0] || '')}
                     max={1}
+                    cols={2}
                     folder="branding"
                   />
                 </div>
